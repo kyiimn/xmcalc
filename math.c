@@ -470,7 +470,7 @@ negf(void)
   if (dispstr[0]=='-')	 	/* already neg-ed */
     strcpy(dispstr,dispstr+1);  /* move str left once */
   else {			/* not neg-ed.  add a '-' */
-    char tmp[32];
+    char tmp[LCD_STR_LEN + 1];
     snprintf(tmp, sizeof(tmp), "-%s", dispstr);
     strlcpy(dispstr, tmp, sizeof(dispstr));
   }
