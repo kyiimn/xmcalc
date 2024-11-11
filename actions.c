@@ -39,10 +39,10 @@ from the X Consortium.
 #include "xcalc.h"
 
 #ifndef IEEE
-#define XCALC_PRE_OP(keynum) { if (pre_op(keynum)) return; \
-		       if (setjmp (env)) {fail_op(); return;}}
+#define XCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; \
+		       if (setjmp (env)) {fail_op(); return;}} while (0)
 #else
-#define XCALC_PRE_OP(keynum) if (pre_op(keynum)) return;
+#define XCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; } while (0)
 #endif
 
 static void add(Widget w, XEvent *ev, String *vector, Cardinal *count);
