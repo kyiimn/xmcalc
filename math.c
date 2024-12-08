@@ -430,7 +430,7 @@ eef(void)
   if (!exponent) {
     strcat(dispstr,"E+");
     DrawDisplay();
-    exponent=strlen(dispstr)-1;  /* where the '-' goes */
+    exponent=(int) strlen(dispstr)-1;  /* where the '-' goes */
   }
   clrdisp=0;
   entered=1;
