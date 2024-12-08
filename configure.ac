@@ -40,7 +40,7 @@ XORG_DEFAULT_OPTIONS
 AC_CHECK_FUNCS([strlcpy])
 
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XCALC, [xaw7 xt x11 xproto >= 7.0.17])
+PKG_CHECK_MODULES(XCALC, [xaw7 xt x11 xproto >= 7.0.22])
 
 PKG_CHECK_MODULES(APPDEFS, xt)
 xt_appdefaultdir=`$PKG_CONFIG --variable=appdefaultdir xt`
