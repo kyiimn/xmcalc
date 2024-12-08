@@ -42,6 +42,7 @@ from the X Consortium.
 #include <math.h>
 #include <signal.h>
 #include <X11/Xatom.h>
+#include <X11/Xfuncproto.h>
 #include <X11/Shell.h>
 #include <X11/Xaw/Cardinals.h>
 #include <X11/Xaw/Form.h>
@@ -58,7 +59,7 @@ static void create_display(Widget parent);
 static void create_calculator(Widget shell);
 static void done(Widget w, Atom *selection, Atom *target);
 static void lose(Widget w, Atom *selection);
-static void Syntax(int argc, char **argv);
+static void Syntax(int argc, char **argv) _X_NORETURN;
 
 /*
  *	global data
