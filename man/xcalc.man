@@ -1,4 +1,4 @@
-.\" t
+'\" t
 .\" Copyright (c) 1994  X Consortium
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining
@@ -39,7 +39,7 @@
 .if n .sp 1
 .if t .sp .5
 ..
-.TH XCALC 1 __xorgversion__
+.TH XCALC 1 2023-02-05 __xorgversion__
 .SH NAME
 xcalc \- scientific calculator for X
 .SH SYNOPSIS
@@ -53,16 +53,13 @@ xcalc \- scientific calculator for X
 is a scientific calculator desktop accessory that can emulate a TI-30
 or an HP-10C.
 .SH OPTIONS
-.PP
 \fBxcalc\fP accepts all of the standard toolkit command line options along
 with these additional options:
-.PP
 .TP 8
 .B \-stipple
 This option indicates that the background of the calculator should be
 drawn using a stipple of the foreground and background colors.
 On monochrome displays improves the appearance.
-.PP
 .TP 8
 .B \-rpn
 This option indicates that Reverse Polish Notation should be used.
@@ -75,7 +72,6 @@ This option indicates that \fBxcalc\fP should print its usage message and exit.
 .B \-version
 This option indicates that \fBxcalc\fP should print its version and exit.
 .SH OPERATION
-.PP
 .I Pointer Usage:
 Operations may be performed with pointer button 1, or in some cases,
 with the keyboard.
@@ -355,7 +351,6 @@ Finally, there are two additional action procedures:
 and \fBselection()\fR, which performs a cut on the
 entire number in the calculator's ``liquid crystal'' display.
 .SH ACCELERATORS
-.PP
 Accelerators are shortcuts for entering commands.
 \fBxcalc\fP provides some sample keyboard accelerators;
 also users can customize accelerators.
@@ -398,14 +393,13 @@ x!	x!	!	factorial()	factorial()
 \&=		\&=	equal()
 
 0..9	0..9	0..9	digit()	digit()
-.	.	.	decimal()	decimal()
+\&.	.	.	decimal()	decimal()
 +/-	CHS	n	negate()	negate()
 
 	x:y	x		XexchangeY()
 	ENTR	Return		enter()
 	ENTR	Linefeed		enter()
 .TE
-.PP
 .SH CUSTOMIZATION
 The application class name is \fBXCalc\fP.
 .PP
@@ -422,22 +416,25 @@ The foreground and background colors of each calculator key can be
 individually specified.
 For the TI calculator, a classical color resource specification might be:
 .sp
-.br
+.nf
 XCalc.ti.Command.background:	gray50
 .br
 XCalc.ti.Command.foreground:	white
+.fi
 .sp
 For each of buttons 20, 25, 30, 35, and 40, specify:
-.br
+.nf
 XCalc.ti.button20.background:	black
 .br
 XCalc.ti.button20.foreground:	white
+.fi
 .sp
 For each of buttons 22, 23, 24, 27, 28, 29, 32, 33, 34, 37, 38, and 39:
-.br
+.nf
 XCalc.ti.button22.background:	white
 .br
 XCalc.ti.button22.foreground:	black
+.fi
 .SH WIDGET HIERARCHY
 In order to specify resources, it is useful to know the hierarchy of
 the widgets which compose \fBxcalc\fR.  In the notation below,
@@ -466,7 +463,6 @@ XCalc xcalc
 .ft
 .fi
 .SH APPLICATION RESOURCES
-.PP
 .TP 8
 \fBrpn\fR (Class \fBRpn\fR)
 Specifies that the rpn mode should be used.
@@ -479,24 +475,20 @@ The default is ``on'' for monochrome displays, and ``off'' for color displays.
 \fBcursor\fR (Class \fBCursor\fR)
 The name of the symbol used to represent the pointer.
 The default is ``hand2''.
-.fi
 .SH COLORS
 If you would like \fBxcalc\fP to use its TI colors, include the following
 in the \fB#ifdef COLOR\fP section of the file you read with xrdb:
 .sp 1
 *customization:                 \-color
 .sp 1
-.br
 This will cause \fBxcalc\fP to pick up the colors in the app-defaults color
 customization file:
 .IR __apploaddir__/XCalc\-color .
-.fi
 .SH "SEE ALSO"
 .BR X (__miscmansuffix__),
 .BR xrdb (__appmansuffix__),
 the Athena Widget Set
 .SH BUGS
-.PP
 HP mode is not completely debugged.  In particular, the stack is
 not handled properly after errors.
 .SH AUTHORS
