@@ -25,7 +25,7 @@
 project(
   'xcalc',
   'c',
-  version: '1.1.2',
+  version: '1.1.3',
   license: 'X11',
   license_files: 'COPYING',
   meson_version: '>= 1.1.0',
