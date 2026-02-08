@@ -39,6 +39,7 @@ from the X Consortium.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <signal.h>
 #include <X11/Xatom.h>
@@ -363,7 +364,7 @@ static Boolean convert(_X_UNUSED Widget w, _X_UNUSED Atom *selection,
     {
 	*type = XA_STRING;
 	*length = strlen(dispstr);
-	strncpy(selstr, dispstr, (int)(*length));
+	memcpy(selstr, dispstr, (size_t)(*length));
 	*value = selstr;
 	*format = 8;
 	return True;
