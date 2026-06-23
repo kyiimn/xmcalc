@@ -6,7 +6,7 @@ XCalc.IconPixmap:	calculator
 
 XCalc*Cursor:		hand2
 XCalc*fontList:		8x13
-XCalc*XmPushButton.XmNmarginWidth:	2
+XCalc*XmPushButton.XmNmarginWidth:	1
 XCalc*XmPushButton.XmNmarginHeight:	2
 XCalc*XmPushButton.width:		40
 XCalc*XmPushButton.height:		26
