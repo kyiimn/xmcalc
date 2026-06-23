@@ -44,6 +44,15 @@ from the X Consortium.
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
+#include <Xm/Xm.h>
+#include <Xm/Form.h>
+#include <Xm/Label.h>
+#include <Xm/PushB.h>
+#include <Xm/ToggleB.h>
+#include <Xm/TextF.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Frame.h>
+
 #include <stdio.h>
 #include <X11/Xos.h>
 #include <math.h>
@@ -165,7 +174,6 @@ extern jmp_buf env;
 #endif
 
 /* xcalc.c */
-extern void do_select(Time time);
 extern void draw(char *string);
 extern void Quit(void) _X_NORETURN;
 extern void ringbell(void);

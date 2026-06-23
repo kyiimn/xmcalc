@@ -49,7 +49,7 @@ config_h = configure_file(output: 'config.h', configuration: conf)
 add_project_arguments('-DHAVE_CONFIG_H', language: ['c'])
 
 # Checks for pkg-config packages
-dep_libxaw = dependency('xaw7', required: true)
+dep_libxm = dependency('xm', required: true)
 dep_libxt  = dependency('xt', required: true)
 dep_libx11 = dependency('x11', required: true)
 dep_xproto = dependency('xproto', required: true, version: '>= 7.0.22')
@@ -61,7 +61,7 @@ add_project_arguments('-D_CONST_X_STRING', language: ['c'])
 executable(
   'xcalc',
   [config_h, 'actions.c', 'math.c', 'xcalc.c', 'xcalc.h'],
-  dependencies: [dep_libxaw, dep_libxt, dep_libx11, dep_xproto, dep_libm],
+  dependencies: [dep_libxm, dep_libxt, dep_libx11, dep_xproto, dep_libm],
   install: true
 )
 
