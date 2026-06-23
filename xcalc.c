@@ -552,7 +552,6 @@ static void create_display(Widget parent)
     /* liquid crystal display */
     n = 0;
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
-    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNeditable, False); n++;
     XtSetArg(args[n], XmNcursorPositionVisible, False); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
@@ -1017,12 +1016,19 @@ static void set_button_sizes(Widget *btns, int count, int width, int height)
  *	Miscellaneous utility routines that interact with the widgets.
  */
 
-/*
- * 	called by math routines to write to the liquid crystal display.
- */
 void draw(char *string)
 {
-    XmTextFieldSetString(LCD, string);
+    enum { LCD_COLUMNS = 25 };
+    int str_len = (int)strlen(string);
+    if (str_len < LCD_COLUMNS) {
+	char buf[LCD_STR_LEN];
+	int pad = LCD_COLUMNS - str_len;
+	memset(buf, ' ', pad);
+	memcpy(buf + pad, string, str_len + 1);
+	XmTextFieldSetString(LCD, buf);
+    } else {
+	XmTextFieldSetString(LCD, string);
+    }
 }
 
 /*
