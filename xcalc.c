@@ -552,15 +552,15 @@ static void create_display(Widget parent)
     /* liquid crystal display */
     n = 0;
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
-    XtSetArg(args[n], XmNeditable, False); n++;
-    XtSetArg(args[n], XmNcursorPositionVisible, False); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    XtSetArg(args[n], XmNrecomputeSize, False); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, ind[XCalc_MEMORY]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNleftOffset, 4); n++;
     XtSetArg(args[n], XmNtopOffset, 2); n++;
-    LCD = XtCreateManagedWidget("LCD", xmTextFieldWidgetClass, screen, args,
+    LCD = XtCreateManagedWidget("LCD", xmLabelWidgetClass, screen, args,
 				n);
 
     /* INV - the inverse function indicator */
@@ -1018,16 +1018,11 @@ static void set_button_sizes(Widget *btns, int count, int width, int height)
 
 void draw(char *string)
 {
-    int str_len = (int)strlen(string);
-    int pad = LCD_STR_LEN - 1 - str_len;
-    if (pad > 0) {
-	char buf[LCD_STR_LEN];
-	memset(buf, ' ', pad);
-	memcpy(buf + pad, string, str_len + 1);
-	XmTextFieldSetString(LCD, buf);
-    } else {
-	XmTextFieldSetString(LCD, string);
-    }
+    XmString str = XmStringCreateLocalized(string);
+    Arg arg;
+    XtSetArg(arg, XmNlabelString, str);
+    XtSetValues(LCD, &arg, 1);
+    XmStringFree(str);
 }
 
 /*
