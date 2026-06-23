@@ -1018,11 +1018,10 @@ static void set_button_sizes(Widget *btns, int count, int width, int height)
 
 void draw(char *string)
 {
-    enum { LCD_COLUMNS = 25 };
     int str_len = (int)strlen(string);
-    if (str_len < LCD_COLUMNS) {
+    int pad = LCD_STR_LEN - 1 - str_len;
+    if (pad > 0) {
 	char buf[LCD_STR_LEN];
-	int pad = LCD_COLUMNS - str_len;
 	memset(buf, ' ', pad);
 	memcpy(buf + pad, string, str_len + 1);
 	XmTextFieldSetString(LCD, buf);
