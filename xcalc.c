@@ -664,7 +664,7 @@ static void create_keypad(Widget parent)
     register int i;
     int		 n = XtNumber(Keyboard);
 
-    if (appResources.rpn) n--; 	/* HP has 39 buttons, TI has 40 */
+    if (appResources.rpn) n = 39; 	/* HP has 39 buttons, TI has 55 */
 
     for (i=0; i < n; i++)
 	buttons[i] = XtCreateManagedWidget(Keyboard[i], xmPushButtonWidgetClass, parent,
