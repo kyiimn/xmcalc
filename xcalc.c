@@ -98,106 +98,106 @@ static unsigned char check_bits[] = {
  *	These replace the resource-file translations that Motif does not apply.
  */
 static const char *ti_translations[] = {
-    "#override<Btn1Down>,<Btn1Up>:reciprocal()",	/* button1 */
-    "#override<Btn1Down>,<Btn1Up>:square()",		/* button2 */
-    "#override<Btn1Down>,<Btn1Up>:squareRoot()",	/* button3 */
-    "#override<Btn1Down>,<Btn1Up>:clear()",		/* button4 */
-    "#override<Btn1Down>,<Btn1Up>:off()\n<Btn3Down>,<Btn3Up>:quit()",	/* button5 */
-    "#override<Btn1Down>,<Btn1Up>:inverse()",		/* button6 */
-    "#override<Btn1Down>,<Btn1Up>:sine()",		/* button7 */
-    "#override<Btn1Down>,<Btn1Up>:cosine()",		/* button8 */
-    "#override<Btn1Down>,<Btn1Up>:tangent()",		/* button9 */
-    "#override<Btn1Down>,<Btn1Up>:degree()",		/* button10 */
-    "#override<Btn1Down>,<Btn1Up>:e()",			/* button11 */
-    "#override<Btn1Down>,<Btn1Up>:scientific()",	/* button12 */
-    "#override<Btn1Down>,<Btn1Up>:logarithm()",		/* button13 */
-    "#override<Btn1Down>,<Btn1Up>:naturalLog()",	/* button14 */
-    "#override<Btn1Down>,<Btn1Up>:power()",		/* button15 */
-    "#override<Btn1Down>,<Btn1Up>:not()",		/* button16 */
-    "#override<Btn1Down>,<Btn1Up>:and()",		/* button17 */
-    "#override<Btn1Down>,<Btn1Up>:or()",			/* button18 */
-    "#override<Btn1Down>,<Btn1Up>:xor()",		/* button19 */
-    "#override<Btn1Down>,<Btn1Up>:trunc()",		/* button20 */
-    "#override<Btn1Down>,<Btn1Up>:pi()",			/* button21 */
-    "#override<Btn1Down>,<Btn1Up>:factorial()",		/* button22 */
-    "#override<Btn1Down>,<Btn1Up>:leftParen()",		/* button23 */
-    "#override<Btn1Down>,<Btn1Up>:rightParen()",	/* button24 */
-    "#override<Btn1Down>,<Btn1Up>:base()",		/* button25 */
-    "#override<Btn1Down>,<Btn1Up>:shl()",		/* button26 */
-    "#override<Btn1Down>,<Btn1Up>:digit(D)",		/* button27 */
-    "#override<Btn1Down>,<Btn1Up>:digit(E)",		/* button28 */
-    "#override<Btn1Down>,<Btn1Up>:digit(F)",		/* button29 */
-    "#override<Btn1Down>,<Btn1Up>:shr()",		/* button30 */
-    "#override<Btn1Down>,<Btn1Up>:mod()",		/* button31 */
-    "#override<Btn1Down>,<Btn1Up>:digit(A)",		/* button32 */
-    "#override<Btn1Down>,<Btn1Up>:digit(B)",		/* button33 */
-    "#override<Btn1Down>,<Btn1Up>:digit(C)",		/* button34 */
-    "#override<Btn1Down>,<Btn1Up>:divide()",		/* button35 */
-    "#override<Btn1Down>,<Btn1Up>:store()",		/* button36 */
-    "#override<Btn1Down>,<Btn1Up>:digit(7)",		/* button37 */
-    "#override<Btn1Down>,<Btn1Up>:digit(8)",		/* button38 */
-    "#override<Btn1Down>,<Btn1Up>:digit(9)",		/* button39 */
-    "#override<Btn1Down>,<Btn1Up>:multiply()",		/* button40 */
-    "#override<Btn1Down>,<Btn1Up>:recall()",		/* button41 */
-    "#override<Btn1Down>,<Btn1Up>:digit(4)",		/* button42 */
-    "#override<Btn1Down>,<Btn1Up>:digit(5)",		/* button43 */
-    "#override<Btn1Down>,<Btn1Up>:digit(6)",		/* button44 */
-    "#override<Btn1Down>,<Btn1Up>:subtract()",		/* button45 */
-    "#override<Btn1Down>,<Btn1Up>:sum()",		/* button46 */
-    "#override<Btn1Down>,<Btn1Up>:digit(1)",		/* button47 */
-    "#override<Btn1Down>,<Btn1Up>:digit(2)",		/* button48 */
-    "#override<Btn1Down>,<Btn1Up>:digit(3)",		/* button49 */
-    "#override<Btn1Down>,<Btn1Up>:add()",		/* button50 */
-    "#override<Btn1Down>,<Btn1Up>:exchange()",		/* button51 */
-    "#override<Btn1Down>,<Btn1Up>:digit(0)",		/* button52 */
-    "#override<Btn1Down>,<Btn1Up>:decimal()",		/* button53 */
-    "#override<Btn1Down>,<Btn1Up>:negate()",		/* button54 */
-    "#override<Btn1Down>,<Btn1Up>:equal()"		/* button55 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:reciprocal() Disarm()",	/* button1 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:square() Disarm()",		/* button2 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:squareRoot() Disarm()",	/* button3 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:clear() Disarm()",		/* button4 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:off() Disarm()\n<Btn3Down>,<Btn3Up>:quit()",	/* button5 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:inverse() Disarm()",		/* button6 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:sine() Disarm()",		/* button7 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:cosine() Disarm()",		/* button8 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:tangent() Disarm()",		/* button9 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:degree() Disarm()",		/* button10 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:e() Disarm()",			/* button11 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:scientific() Disarm()",	/* button12 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:logarithm() Disarm()",		/* button13 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:naturalLog() Disarm()",	/* button14 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:power() Disarm()",		/* button15 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:not() Disarm()",		/* button16 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:and() Disarm()",		/* button17 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:or() Disarm()",			/* button18 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:xor() Disarm()",		/* button19 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:trunc() Disarm()",		/* button20 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:pi() Disarm()",			/* button21 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:factorial() Disarm()",		/* button22 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:leftParen() Disarm()",		/* button23 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:rightParen() Disarm()",	/* button24 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:base() Disarm()",		/* button25 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:shl() Disarm()",		/* button26 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(D) Disarm()",		/* button27 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(E) Disarm()",		/* button28 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(F) Disarm()",		/* button29 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:shr() Disarm()",		/* button30 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:mod() Disarm()",		/* button31 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(A) Disarm()",		/* button32 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(B) Disarm()",		/* button33 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(C) Disarm()",		/* button34 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:divide() Disarm()",		/* button35 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:store() Disarm()",		/* button36 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(7) Disarm()",		/* button37 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(8) Disarm()",		/* button38 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(9) Disarm()",		/* button39 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:multiply() Disarm()",		/* button40 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:recall() Disarm()",		/* button41 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(4) Disarm()",		/* button42 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(5) Disarm()",		/* button43 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(6) Disarm()",		/* button44 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:subtract() Disarm()",		/* button45 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:sum() Disarm()",		/* button46 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(1) Disarm()",		/* button47 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(2) Disarm()",		/* button48 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(3) Disarm()",		/* button49 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:add() Disarm()",		/* button50 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:exchange() Disarm()",		/* button51 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(0) Disarm()",		/* button52 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:decimal() Disarm()",		/* button53 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:negate() Disarm()",		/* button54 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:equal() Disarm()"		/* button55 */
 };
 
 /*
  *	HP button translations (buttons 1-39, buttons 21 & 22 unmapped).
  */
 static const char *hp_translations[] = {
-    "#override<Btn1Down>,<Btn1Up>:squareRoot()",	/* button1 */
-    "#override<Btn1Down>,<Btn1Up>:epower()",		/* button2 */
-    "#override<Btn1Down>,<Btn1Up>:tenpower()",		/* button3 */
-    "#override<Btn1Down>,<Btn1Up>:power()",		/* button4 */
-    "#override<Btn1Down>,<Btn1Up>:reciprocal()",	/* button5 */
-    "#override<Btn1Down>,<Btn1Up>:negate()",		/* button6 */
-    "#override<Btn1Down>,<Btn1Up>:digit(7)",		/* button7 */
-    "#override<Btn1Down>,<Btn1Up>:digit(8)",		/* button8 */
-    "#override<Btn1Down>,<Btn1Up>:digit(9)",		/* button9 */
-    "#override<Btn1Down>,<Btn1Up>:divide()",		/* button10 */
-    "#override<Btn1Down>,<Btn1Up>:factorial()",		/* button11 */
-    "#override<Btn1Down>,<Btn1Up>:pi()",			/* button12 */
-    "#override<Btn1Down>,<Btn1Up>:sine()",		/* button13 */
-    "#override<Btn1Down>,<Btn1Up>:cosine()",		/* button14 */
-    "#override<Btn1Down>,<Btn1Up>:tangent()",		/* button15 */
-    "#override<Btn1Down>,<Btn1Up>:scientific()",	/* button16 */
-    "#override<Btn1Down>,<Btn1Up>:digit(4)",		/* button17 */
-    "#override<Btn1Down>,<Btn1Up>:digit(5)",		/* button18 */
-    "#override<Btn1Down>,<Btn1Up>:digit(6)",		/* button19 */
-    "#override<Btn1Down>,<Btn1Up>:multiply()",		/* button20 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:squareRoot() Disarm()",	/* button1 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:epower() Disarm()",		/* button2 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:tenpower() Disarm()",		/* button3 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:power() Disarm()",		/* button4 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:reciprocal() Disarm()",	/* button5 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:negate() Disarm()",		/* button6 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(7) Disarm()",		/* button7 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(8) Disarm()",		/* button8 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(9) Disarm()",		/* button9 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:divide() Disarm()",		/* button10 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:factorial() Disarm()",		/* button11 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:pi() Disarm()",			/* button12 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:sine() Disarm()",		/* button13 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:cosine() Disarm()",		/* button14 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:tangent() Disarm()",		/* button15 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:scientific() Disarm()",	/* button16 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(4) Disarm()",		/* button17 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(5) Disarm()",		/* button18 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(6) Disarm()",		/* button19 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:multiply() Disarm()",		/* button20 */
     NULL,						/* button21 (unmapped) */
     NULL,						/* button22 (unmapped) */
-    "#override<Btn1Down>,<Btn1Up>:roll()",		/* button23 */
-    "#override<Btn1Down>,<Btn1Up>:XexchangeY()",	/* button24 */
-    "#override<Btn1Down>,<Btn1Up>:back()",		/* button25 */
-    "#override<Btn1Down>,<Btn1Up>:enter()",		/* button26 */
-    "#override<Btn1Down>,<Btn1Up>:digit(1)",		/* button27 */
-    "#override<Btn1Down>,<Btn1Up>:digit(2)",		/* button28 */
-    "#override<Btn1Down>,<Btn1Up>:digit(3)",		/* button29 */
-    "#override<Btn1Down>,<Btn1Up>:subtract()",		/* button30 */
-    "#override<Btn1Down>,<Btn1Up>:off()\n<Btn3Down>,<Btn3Up>:quit()",	/* button31 */
-    "#override<Btn1Down>,<Btn1Up>:degree()",		/* button32 */
-    "#override<Btn1Down>,<Btn1Up>:inverse()",		/* button33 */
-    "#override<Btn1Down>,<Btn1Up>:store()",		/* button34 */
-    "#override<Btn1Down>,<Btn1Up>:recall()",		/* button35 */
-    "#override<Btn1Down>,<Btn1Up>:digit(0)",		/* button36 */
-    "#override<Btn1Down>,<Btn1Up>:decimal()",		/* button37 */
-    "#override<Btn1Down>,<Btn1Up>:sum()",		/* button38 */
-    "#override<Btn1Down>,<Btn1Up>:add()"		/* button39 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:roll() Disarm()",		/* button23 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:XexchangeY() Disarm()",	/* button24 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:back() Disarm()",		/* button25 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:enter() Disarm()",		/* button26 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(1) Disarm()",		/* button27 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(2) Disarm()",		/* button28 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(3) Disarm()",		/* button29 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:subtract() Disarm()",		/* button30 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:off() Disarm()\n<Btn3Down>,<Btn3Up>:quit()",	/* button31 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:degree() Disarm()",		/* button32 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:inverse() Disarm()",		/* button33 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:store() Disarm()",		/* button34 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:recall() Disarm()",		/* button35 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:digit(0) Disarm()",		/* button36 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:decimal() Disarm()",		/* button37 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:sum() Disarm()",		/* button38 */
+    "#override<Btn1Down>:Arm()\n<Btn1Up>:add() Disarm()"		/* button39 */
 };
 
 /*
