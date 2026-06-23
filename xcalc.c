@@ -457,8 +457,21 @@ static void create_calculator(Widget shell)
 	Arg h_arg;
 	XtSetArg(h_arg, XmNheight, (XtArgVal)56);
 	XtSetValues(buttons[25], &h_arg, 1);
-	XtUnmanageChild(buttons[20]);
-	XtUnmanageChild(buttons[21]);
+	/* Make buttons 21 and 22 invisible but keep them managed for layout */
+	{
+	    Arg inv_args[5];
+	    int inv_n;
+	    XmString empty = XmStringCreateLocalized("");
+	    for (int bi = 20; bi <= 21; bi++) {
+		inv_n = 0;
+		XtSetArg(inv_args[inv_n], XmNlabelString, empty); inv_n++;
+		XtSetArg(inv_args[inv_n], XmNshadowThickness, 0); inv_n++;
+		XtSetArg(inv_args[inv_n], XmNsensitive, False); inv_n++;
+		XtSetArg(inv_args[inv_n], XmNmappedWhenManaged, False); inv_n++;
+		XtSetValues(buttons[bi], inv_args, inv_n);
+	    }
+	    XmStringFree(empty);
+	}
     } else {
 	set_ti_attachments(calculator, bevel, buttons);
 	set_ti_labels(buttons);
@@ -685,13 +698,13 @@ static void set_ti_attachments(Widget form, Widget bevel_w, Widget *btns)
 
 /*
  *	Set XmForm constraint attachments for HP mode buttons.
- *	HP layout: 4 rows with ENTER spanning 2 rows.
- *	Buttons 21 and 22 (indices 20, 21) are unmapped; do NOT
- *	reference them as attachment widgets.
+ *	Matches the original Xaw resource layout from app-defaults/XCalc.
+ *	Buttons 21 and 22 (indices 20, 21) are kept managed but invisible
+ *	(mappedWhenManaged=False) so they serve as valid attachment targets.
  *
  *	Row 0: sqrt e^x 10^x y^x 1/x CHS 7 8 9 ÷    (10 buttons)
  *	Row 1: x!  π  sin  cos  tan  EEX 4 5 6 ×      (10 buttons)
- *	Row 2: Rv  x:y  ←  ENTER(2rows) 1 2 3 −       (8 visible + ENTER)
+ *	Row 2: [21] [22] Rv  x:y  ←  ENTER  1 2 3 −  (8 visible + 2 invisible + ENTER)
  *	Row 3: ON  DRG  INV  STO  RCL  0 . SUM +       (9 buttons)
  */
 static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
@@ -699,7 +712,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
     Arg	args[8];
     int	n, i;
 
-    /* Row 0 (indices 0-9): top=bevel, left=form or prev */
+    /* Row 0 (indices 0-9): top=bevel+12, left=FORM or prev, right=FORM for btn10 */
     for (i = 0; i < 10; i++) {
 	n = 0;
 	if (i == 0) {
@@ -719,7 +732,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	XtSetValues(btns[i], args, n);
     }
 
-    /* Row 1 (indices 10-19): top=button[i-10], left=form or prev */
+    /* Row 1 (indices 10-19): top=btns[i-10], left=FORM or prev, right=FORM for btn20 */
     for (i = 10; i < 20; i++) {
 	n = 0;
 	if (i == 10) {
@@ -738,12 +751,16 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	XtSetValues(btns[i], args, n);
     }
 
-    /* Row 2 (indices 22-29): skip unmapped 20 and 21.
-     * Rv(idx 22) attaches left=FORM (unmapped 21 would be left neighbor).
-     * ENTER(idx 25) has height=56 to span 2 rows (set in create_calculator). */
-    for (i = 22; i < 30; i++) {
+    /* Row 2 (indices 20-29): all 10 buttons including invisible 21/22.
+     * Matches original resource layout exactly.
+     * button21(20): left=FORM+4, top=button11(10)
+     * button22(21): left=button21(20), top=button12(11)
+     * button23(22): left=button22(21), top=button13(12)
+     * ...
+     * button30(29): left=button29(28), top=button20(19), right=FORM */
+    for (i = 20; i < 30; i++) {
 	n = 0;
-	if (i == 22) {
+	if (i == 20) {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
 	    XtSetArg(args[n], XmNleftOffset, 4); n++;
 	} else {
@@ -759,80 +776,87 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	XtSetValues(btns[i], args, n);
     }
 
-    /* Row 3 (indices 30-38): 9 buttons.
-     * ON(30) and DRG(31) reference visible row-2 buttons for top
-     * since unmapped buttons 21/22 cannot serve as attachment targets. */
+    /* Row 3 (indices 30-38): 9 buttons, matching original resource layout.
+     * button31(30): left=FORM+4, top=button21(20)
+     * button32(31): left=button31(30), top=button22(21)
+     * button33(32): left=button32(31), top=button23(22)
+     * button34(33): left=button33(32), top=button24(23)
+     * button35(34): left=button34(33), top=button25(24)
+     * button36(35): left=button26(25), top=button27(26)
+     * button37(36): left=button36(35), top=button28(27)
+     * button38(37): left=button37(36), top=button29(28)
+     * button39(38): left=button38(37), top=button30(29), right=FORM */
 
-    /* button31=ON: left=FORM, top=Rv(22) */
+    /* button31(idx30): left=FORM, top=button21(idx20) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNleftOffset, 4); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[22]); n++; /* Rv */
+    XtSetArg(args[n], XmNtopWidget, btns[20]); n++;
     XtSetValues(btns[30], args, n);
 
-    /* button32=DRG: left=ON(30), top=x:y(23) */
+    /* button32(idx31): left=button31(30), top=button22(21) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[30]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[23]); n++; /* x:y */
+    XtSetArg(args[n], XmNtopWidget, btns[21]); n++;
     XtSetValues(btns[31], args, n);
 
-    /* button33=INV: left=DRG(31), top=Rv(22) */
+    /* button33(idx32): left=button32(31), top=button23(22) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[31]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[22]); n++; /* Rv */
+    XtSetArg(args[n], XmNtopWidget, btns[22]); n++;
     XtSetValues(btns[32], args, n);
 
-    /* button34=STO: left=INV(32), top=x:y(23) */
+    /* button34(idx33): left=button33(32), top=button24(23) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[32]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[23]); n++; /* x:y */
+    XtSetArg(args[n], XmNtopWidget, btns[23]); n++;
     XtSetValues(btns[33], args, n);
 
-    /* button35=RCL: left=STO(33), top=←(24) */
+    /* button35(idx34): left=button34(33), top=button25(24) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[33]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[24]); n++; /* ← */
+    XtSetArg(args[n], XmNtopWidget, btns[24]); n++;
     XtSetValues(btns[34], args, n);
 
-    /* button36=0: left=ENTER(25), top=1(26) */
+    /* button36(idx35): left=button26(25)=ENTER, top=button27(26) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, btns[25]); n++; /* ENTER */
+    XtSetArg(args[n], XmNleftWidget, btns[25]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[26]); n++; /* 1 */
+    XtSetArg(args[n], XmNtopWidget, btns[26]); n++;
     XtSetValues(btns[35], args, n);
 
-    /* button37=.: left=0(35), top=2(27) */
+    /* button37(idx36): left=button36(35), top=button28(27) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[35]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[27]); n++; /* 2 */
+    XtSetArg(args[n], XmNtopWidget, btns[27]); n++;
     XtSetValues(btns[36], args, n);
 
-    /* button38=SUM: left=.(36), top=3(28) */
+    /* button38(idx37): left=button37(36), top=button29(28) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[36]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[28]); n++; /* 3 */
+    XtSetArg(args[n], XmNtopWidget, btns[28]); n++;
     XtSetValues(btns[37], args, n);
 
-    /* button39=+: left=SUM(37), top=−(29), right=FORM */
+    /* button39(idx38): left=button38(37), top=button30(29), right=FORM */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, btns[37]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNtopWidget, btns[29]); n++; /* − */
+    XtSetArg(args[n], XmNtopWidget, btns[29]); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightOffset, 4); n++;
     XtSetValues(btns[38], args, n);
@@ -920,9 +944,6 @@ static void set_hp_labels(Widget *btns)
     XmString str;
     int i;
     for (i = 0; i < 39; i++) {
-	/* Skip unmapped buttons 21 & 22 (indices 20 & 21) */
-	if (i == 20 || i == 21)
-	    continue;
 	str = XmStringCreateLocalized((char *)hp_labels[i]);
 	XtSetArg(arg, XmNlabelString, str);
 	XtSetValues(btns[i], &arg, 1);
