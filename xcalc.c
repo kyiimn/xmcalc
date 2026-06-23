@@ -558,6 +558,7 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XmNleftWidget, ind[XCalc_MEMORY]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
+    XtSetArg(args[n], XmNrightOffset, 4); n++;
     XtSetArg(args[n], XmNleftOffset, 4); n++;
     XtSetArg(args[n], XmNtopOffset, 2); n++;
     LCD = XtCreateManagedWidget("LCD", xmLabelWidgetClass, screen, args,
