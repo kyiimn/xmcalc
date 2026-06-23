@@ -525,9 +525,9 @@ static void create_display(Widget parent)
     n = 0;
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
-    XtSetArg(args[n], XmNtopOffset, 4); n++;
     ind[XCalc_INVERSE] = XtCreateManagedWidget("INV", xmLabelWidgetClass,
 					 screen, args, n);
 
