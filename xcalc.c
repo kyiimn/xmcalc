@@ -60,6 +60,8 @@ static void create_display(Widget parent);
 static void create_calculator(Widget shell);
 static void set_ti_attachments(Widget form, Widget bevel, Widget *btns);
 static void set_hp_attachments(Widget form, Widget bevel, Widget *btns);
+static void set_ti_labels(Widget *btns);
+static void set_hp_labels(Widget *btns);
 static void Syntax(int argc, char **argv) _X_NORETURN;
 
 /*
@@ -193,10 +195,15 @@ static void create_calculator(Widget shell)
 				       shell, (ArgList) NULL, ZERO);
     create_display(calculator);
     create_keypad(calculator);
-    if (rpn)
+    if (rpn) {
 	set_hp_attachments(calculator, bevel, buttons);
-    else
+	set_hp_labels(buttons);
+	XtUnmanageChild(buttons[20]);  /* button21: unmapped in HP mode */
+	XtUnmanageChild(buttons[21]);  /* button22: unmapped in HP mode */
+    } else {
 	set_ti_attachments(calculator, bevel, buttons);
+	set_ti_labels(buttons);
+    }
     XtSetKeyboardFocus(calculator, LCD);
 }
 
@@ -536,6 +543,98 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, btns[29]); n++; /* button30 */
     XtSetValues(btns[38], args, n);
+}
+
+/*
+ *	Set XmNlabelString for TI mode buttons.
+ *	The app-defaults resource file's labelString resources are not
+ *	applied by Motif, so we set them programmatically here.
+ */
+static void set_ti_labels(Widget *btns)
+{
+    static const char *ti_labels[] = {
+	"1/x", "x^2", "sqrt", "CE/C", "AC",		/* row 1 */
+	"INV", "sin",  "cos",  "tan",  "DRG",		/* row 2 */
+	"e",   "EE",   "log",  "ln",   "y^x",		/* row 3 */
+	"not", "and",  "or",   "xor",  "trunc",	/* row 4 */
+	"pi",  "x!",   "(",    ")",    "base",		/* row 5 */
+	"shl", "D",    "E",    "F",    "shr",		/* row 6 */
+	"mod", "A",    "B",    "C",    "/",		/* row 7 */
+	"STO", "7",    "8",    "9",    "*",		/* row 8 */
+	"RCL", "4",    "5",    "6",    "-",		/* row 9 */
+	"SUM", "1",    "2",    "3",    "+",		/* row 10 */
+	"EXC", "0",    ".",    "+/-",  "="		/* row 11 */
+    };
+    Arg arg;
+    XmString str;
+    int i;
+    for (i = 0; i < 55; i++) {
+	str = XmStringCreateLocalized((char *)ti_labels[i]);
+	XtSetArg(arg, XmNlabelString, str);
+	XtSetValues(btns[i], &arg, 1);
+	XmStringFree(str);
+    }
+}
+
+/*
+ *	Set XmNlabelString for HP mode buttons.
+ *	HP has 39 visible buttons (buttons 21 & 22 are unmapped).
+ */
+static void set_hp_labels(Widget *btns)
+{
+    static const char *hp_labels[] = {
+	"sqrt",					/* button1 */
+	"e^x",					/* button2 */
+	"10^x",					/* button3 */
+	"y^x",					/* button4 */
+	"1/x",					/* button5 */
+	"CHS",					/* button6 */
+	"7",					/* button7 */
+	"8",					/* button8 */
+	"9",					/* button9 */
+	"/",					/* button10 */
+	"x!",					/* button11 */
+	"pi",					/* button12 */
+	"sin",					/* button13 */
+	"cos",					/* button14 */
+	"tan",					/* button15 */
+	"EEX",					/* button16 */
+	"4",					/* button17 */
+	"5",					/* button18 */
+	"6",					/* button19 */
+	"*",					/* button20 */
+	"",					/* button21 (unmapped) */
+	"",					/* button22 (unmapped) */
+	"Rv",					/* button23 */
+	"x:y",					/* button24 */
+	"<-",					/* button25 */
+	"E\nN\nT\nE\nR",			/* button26 */
+	"1",					/* button27 */
+	"2",					/* button28 */
+	"3",					/* button29 */
+	"-",					/* button30 */
+	"ON",					/* button31 */
+	"DRG",					/* button32 */
+	"INV",					/* button33 */
+	"STO",					/* button34 */
+	"RCL",					/* button35 */
+	"0",					/* button36 */
+	".",					/* button37 */
+	"SUM",					/* button38 */
+	"+"					/* button39 */
+    };
+    Arg arg;
+    XmString str;
+    int i;
+    for (i = 0; i < 39; i++) {
+	/* Skip unmapped buttons 21 & 22 (indices 20 & 21) */
+	if (i == 20 || i == 21)
+	    continue;
+	str = XmStringCreateLocalized((char *)hp_labels[i]);
+	XtSetArg(arg, XmNlabelString, str);
+	XtSetValues(btns[i], &arg, 1);
+	XmStringFree(str);
+    }
 }
 
 /*
