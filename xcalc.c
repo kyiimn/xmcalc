@@ -453,10 +453,28 @@ static void create_calculator(Widget shell)
 	set_hp_attachments(calculator, bevel, buttons);
 	set_hp_labels(buttons);
 	set_hp_translations(buttons);
-	set_button_sizes(buttons, 39, 50, 30);
+	set_button_sizes(buttons, 39, 40, 30);
 	Arg h_arg;
 	XtSetArg(h_arg, XmNheight, (XtArgVal)60);
 	XtSetValues(buttons[25], &h_arg, 1);
+	/* ENTER button: smaller font so "E\nN\nT\nE\nR" fits */
+	{
+	    XmString enter_str = XmStringCreateLocalized("E\nN\nT\nE\nR");
+	    XFontStruct *enter_fs = XLoadQueryFont(XtDisplay(buttons[25]), "6x12");
+	    if (enter_fs != NULL) {
+		XmFontList enter_font = XmFontListCreate(enter_fs,
+		    XmSTRING_DEFAULT_CHARSET);
+		if (enter_font != NULL) {
+		    Arg enter_args[2];
+		    int en = 0;
+		    XtSetArg(enter_args[en], XmNlabelString, enter_str); en++;
+		    XtSetArg(enter_args[en], XmNfontList, enter_font); en++;
+		    XtSetValues(buttons[25], enter_args, en);
+		    XmFontListFree(enter_font);
+		}
+	    }
+	    XmStringFree(enter_str);
+	}
 	/* Make buttons 21 and 22 invisible but keep them managed for layout.
 	 * mappedWhenManaged=False keeps them in the XmForm layout (they
 	 * occupy space) but prevents them from being displayed.
@@ -475,10 +493,10 @@ static void create_calculator(Widget shell)
 		XtSetValues(buttons[bi], inv_args, inv_n);
 	    }
 	    XmStringFree(empty);
-	    /* Re-apply size so invisible buttons still occupy 50x30 in layout */
+	    /* Re-apply size so invisible buttons still occupy 40x30 in layout */
 	    {
 		Arg sz_args[2];
-		XtSetArg(sz_args[0], XmNwidth, (XtArgVal)50);
+		XtSetArg(sz_args[0], XmNwidth, (XtArgVal)40);
 		XtSetArg(sz_args[1], XmNheight, (XtArgVal)30);
 		XtSetValues(buttons[20], sz_args, 2);
 		XtSetValues(buttons[21], sz_args, 2);
