@@ -2,7 +2,8 @@
 
 XCalc.Title:		Calculator
 XCalc.IconName:		Calc
-XCalc.IconPixmap:	calculator
+! XCalc.IconPixmap removed: Motif/Xm has no String-to-Bitmap converter;
+! use XmNiconPixmap programmatically if needed.
 
 XCalc*Cursor:		hand2
 XCalc*fontList:		8x13

@@ -154,9 +154,11 @@ main(int argc, char **argv)
     dpy = XtDisplay(toplevel);
     wm_delete_window = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
     XSetWMProtocols(dpy, XtWindow(toplevel), &wm_delete_window, 1);
-    XDefineCursor(dpy, XtWindow(toplevel), appResources.cursor);
+    if (appResources.cursor != None)
+	XDefineCursor(dpy, XtWindow(toplevel), appResources.cursor);
 
-    if (appResources.stipple || (CellsOfScreen(XtScreen(toplevel)) <= 2))
+    if ((appResources.stipple || (CellsOfScreen(XtScreen(toplevel)) <= 2))
+	&& XtWindow(toplevel) != None)
     {
 	Screen	*screen = XtScreen(toplevel);
 	Pixmap	backgroundPix;
