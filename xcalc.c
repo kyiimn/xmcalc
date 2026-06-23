@@ -510,7 +510,9 @@ static void create_calculator(Widget shell)
     }
     XtOverrideTranslations(LCD, XtParseTranslationTable(
 	rpn ? hp_lcd_translations : ti_lcd_translations));
-    XtSetKeyboardFocus(calculator, LCD);
+    XtOverrideTranslations(calculator, XtParseTranslationTable(
+	rpn ? hp_lcd_translations : ti_lcd_translations));
+    XtSetKeyboardFocus(calculator, calculator);
 }
 
 /*
