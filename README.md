@@ -1,5 +1,6 @@
-xcalc is a scientific calculator X11 client that can emulate a TI-30
-or an HP-10C.
+xmcalc is a fork of xcalc, ported from Xaw (Athena Widget Set) to
+OpenMotif (Xm). It is a scientific calculator X11 client that can
+emulate a TI-30 or an HP-10C.
 
 All questions regarding this software should be directed at the
 Xorg mailing list:

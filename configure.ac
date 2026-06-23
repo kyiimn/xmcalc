@@ -22,8 +22,8 @@ dnl Process this file with autoconf to create configure.
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([xcalc], [1.1.3],
-        [https://gitlab.freedesktop.org/xorg/app/xcalc/-/issues], [xcalc])
+AC_INIT([xmcalc], [1.1.3],
+        [https://gitlab.freedesktop.org/xorg/app/xmcalc/-/issues], [xmcalc])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
 
@@ -39,23 +39,23 @@ AC_CHECK_FUNCS([strlcpy])
 
 # Checks for pkg-config packages - Motif/Xm dependency
 # Try 'xm' first, then 'motif', then fallback to AC_CHECK_LIB
-PKG_CHECK_MODULES(XCALC, [xm xt x11 xproto >= 7.0.22],
+PKG_CHECK_MODULES(XMCALC, [xm xt x11 xproto >= 7.0.22],
   [have_xm_pkgconfig=yes],
-  [PKG_CHECK_MODULES(XCALC, [motif xt x11 xproto >= 7.0.22],
+  [PKG_CHECK_MODULES(XMCALC, [motif xt x11 xproto >= 7.0.22],
      [have_xm_pkgconfig=yes],
      [have_xm_pkgconfig=no])])
 
 if test "x$have_xm_pkgconfig" = "xno"; then
   AC_CHECK_LIB([Xm], [XmCreateForm],
-    [XCALC_LIBS="-lXm -lXt -lX11"
-     XCALC_CFLAGS=""],
+    [XMCALC_LIBS="-lXm -lXt -lX11"
+     XMCALC_CFLAGS=""],
     [AC_MSG_ERROR([No Motif/Xm library found])])
   AC_CHECK_HEADERS([Xm/Xm.h],,
     [AC_MSG_ERROR([No Xm/Xm.h header found])])
 fi
 
-AC_SUBST(XCALC_CFLAGS)
-AC_SUBST(XCALC_LIBS)
+AC_SUBST(XMCALC_CFLAGS)
+AC_SUBST(XMCALC_LIBS)
 
 # App-defaults directory
 PKG_CHECK_MODULES([APPDEFS], [xt],,
@@ -84,7 +84,7 @@ AC_SUBST([FILE_MAN_DIR])
 AC_SUBST([MISC_MAN_SUFFIX])
 AC_SUBST([MISC_MAN_DIR])
 
-MAN_SUBSTS="-e 's|__appmansuffix__|${APP_MAN_SUFFIX}|g' -e 's|__filemansuffix__|${FILE_MAN_SUFFIX}|g' -e 's|__libmansuffix__|3|g' -e 's|__miscmansuffix__|${MISC_MAN_SUFFIX}|g' -e 's|__drivermansuffix__|4|g' -e 's|__adminmansuffix__|8|g' -e 's|__xorgversion__|xcalc 1.1.3|g' -e 's|__apploaddir__|${appdefaultdir}|g'"
+MAN_SUBSTS="-e 's|__appmansuffix__|${APP_MAN_SUFFIX}|g' -e 's|__filemansuffix__|${FILE_MAN_SUFFIX}|g' -e 's|__libmansuffix__|3|g' -e 's|__miscmansuffix__|${MISC_MAN_SUFFIX}|g' -e 's|__drivermansuffix__|4|g' -e 's|__adminmansuffix__|8|g' -e 's|__xorgversion__|xmcalc 1.1.3|g' -e 's|__apploaddir__|${appdefaultdir}|g'"
 AC_SUBST([MAN_SUBSTS])
 
 AC_CONFIG_FILES([

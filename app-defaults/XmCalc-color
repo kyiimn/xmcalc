@@ -1,0 +1,165 @@
+#include "XmCalc"
+
+XmCalc*.bevel.background:		gray80
+
+XmCalc*.bevel.borderColor:		gray60
+XmCalc*.bevel.borderWidth:		1
+XmCalc*.bevel.XmNtopOffset:		4
+XmCalc*.bevel.XmNmarginWidth:		4
+XmCalc*.bevel.screen.XmNtopOffset:	4
+XmCalc*.bevel.screen.XmNleftOffset:	4
+XmCalc*.bevel.screen*background:	rgb:9/a/9
+XmCalc*.bevel.screen.borderColor:	gray50
+XmCalc*.bevel.screen*XmTextField.foreground:	gray20
+XmCalc*.bevel.screen*INV.XmNtopOffset:	2
+
+!	T e x a s   I n s t r u m e n t s   T I - 3 0
+
+XmCalc*ti.XmPushButton.borderColor:		rgb:8/9/a
+XmCalc*ti.XmPushButton.background:		rgb:c/d/e
+XmCalc*ti.XmPushButton.foreground:		gray5
+
+XmCalc*ti.button35.foreground:		gray5
+XmCalc*ti.button35.background:		rgb:e/d/c
+XmCalc*ti.button35.borderColor:		rgb:9/8/7
+
+XmCalc*ti.button40.foreground:		gray5
+XmCalc*ti.button40.background:		rgb:e/d/c
+XmCalc*ti.button40.borderColor:		rgb:9/8/7
+
+XmCalc*ti.button45.foreground:		gray5
+XmCalc*ti.button45.background:		rgb:e/d/c
+XmCalc*ti.button45.borderColor:		rgb:9/8/7
+
+XmCalc*ti.button50.foreground:		gray5
+XmCalc*ti.button50.background:		rgb:e/d/c
+XmCalc*ti.button50.borderColor:		rgb:9/8/7
+
+XmCalc*ti.button55.foreground:		gray5
+XmCalc*ti.button55.background:		rgb:e/d/c
+XmCalc*ti.button55.borderColor:		rgb:9/8/7
+
+
+! "Number" keys.
+! "D"
+XmCalc*ti.button27.background:		gray95
+XmCalc*ti.button27.borderColor:		gray65
+! "E"
+XmCalc*ti.button28.background:		gray95
+XmCalc*ti.button28.borderColor:		gray65
+! "F"
+XmCalc*ti.button29.background:		gray95
+XmCalc*ti.button29.borderColor:		gray65
+
+! "A"
+XmCalc*ti.button32.background:		gray95
+XmCalc*ti.button32.borderColor:		gray65
+! "B"
+XmCalc*ti.button33.background:		gray95
+XmCalc*ti.button33.borderColor:		gray65
+! "C"
+XmCalc*ti.button34.background:		gray95
+XmCalc*ti.button34.borderColor:		gray65
+
+! "7"
+XmCalc*ti.button37.background:		gray95
+XmCalc*ti.button37.borderColor:		gray65
+! "8"
+XmCalc*ti.button38.background:		gray95
+XmCalc*ti.button38.borderColor:		gray65
+! "9"
+XmCalc*ti.button39.background:		gray95
+XmCalc*ti.button39.borderColor:		gray65
+
+! "4"
+XmCalc*ti.button42.background:		gray95
+XmCalc*ti.button42.borderColor:		gray65
+! "5"
+XmCalc*ti.button43.background:		gray95
+XmCalc*ti.button43.borderColor:		gray65
+! "6"
+XmCalc*ti.button44.background:		gray95
+XmCalc*ti.button44.borderColor:		gray65
+
+! "1"
+XmCalc*ti.button47.background:		gray95
+XmCalc*ti.button47.borderColor:		gray65
+! "2"
+XmCalc*ti.button48.background:		gray95
+XmCalc*ti.button48.borderColor:		gray65
+! "3"
+XmCalc*ti.button49.background:		gray95
+XmCalc*ti.button49.borderColor:		gray65
+
+! "0"
+XmCalc*ti.button52.background:		gray95
+XmCalc*ti.button52.borderColor:		gray65
+! "."
+XmCalc*ti.button53.background:		gray95
+XmCalc*ti.button53.borderColor:		gray65
+! "+/-"
+XmCalc*ti.button54.background:		gray95
+XmCalc*ti.button54.borderColor:		gray65
+
+!	H e w l e t t - P a c k a r d   1 0 C
+
+XmCalc*hp.background:	wheat
+
+XmCalc*hp.XmPushButton.background:		peru
+XmCalc*hp.XmPushButton.foreground:		white
+
+! Unused buttons.  (Make invisible.)
+XmCalc*hp.button21.background:	wheat
+XmCalc*hp.button21.mappedWhenManaged:	False
+XmCalc*hp.button22.background:	wheat
+XmCalc*hp.button22.mappedWhenManaged:	False
+
+! ON button
+XmCalc*hp.button31.background:	goldenrod
+
+! "Operator" keys.
+! Divide key
+XmCalc*hp.button10.background:	SteelBlue
+! Multiply key
+XmCalc*hp.button20.background:	SteelBlue
+! Minus key
+XmCalc*hp.button30.background:	SteelBlue
+! SUM
+XmCalc*hp.button38.background:	SteelBlue
+! Plus key
+XmCalc*hp.button39.background:	SteelBlue
+
+! "Number" keys.
+! "7"
+XmCalc*hp.button7.background:	white
+XmCalc*hp.button7.foreground:	black
+! "8"
+XmCalc*hp.button8.background:	white
+XmCalc*hp.button8.foreground:	black
+! "9"
+XmCalc*hp.button9.background:	white
+XmCalc*hp.button9.foreground:	black
+! "4"
+XmCalc*hp.button17.background:	white
+XmCalc*hp.button17.foreground:	black
+! "5"
+XmCalc*hp.button18.background:	white
+XmCalc*hp.button18.foreground:	black
+! "6"
+XmCalc*hp.button19.background:	white
+XmCalc*hp.button19.foreground:	black
+! "1"
+XmCalc*hp.button27.background:	white
+XmCalc*hp.button27.foreground:	black
+! "2"
+XmCalc*hp.button28.background:	white
+XmCalc*hp.button28.foreground:	black
+! "3"
+XmCalc*hp.button29.background:	white
+XmCalc*hp.button29.foreground:	black
+! "0"
+XmCalc*hp.button36.background:	white
+XmCalc*hp.button36.foreground:	black
+! "."
+XmCalc*hp.button37.background:	white
+XmCalc*hp.button37.foreground:	black

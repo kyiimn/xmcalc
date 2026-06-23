@@ -39,21 +39,21 @@
 .if n .sp 1
 .if t .sp .5
 ..
-.TH XCALC 1 2023-02-05 __xorgversion__
+.TH XMCALC 1 2023-02-05 __xorgversion__
 .SH NAME
-xcalc \- scientific calculator for X
+xmcalc \- scientific calculator for X
 .SH SYNOPSIS
 .nf
-\fBxcalc\fP [\fB\-stipple\fP] [\fB\-rpn\fP] [\fI\-toolkitoption...\fP]
-\fBxcalc \-version\fP
-\fBxcalc \-help\fP
+\fBxmcalc\fP [\fB\-stipple\fP] [\fB\-rpn\fP] [\fI\-toolkitoption...\fP]
+\fBxmcalc \-version\fP
+\fBxmcalc \-help\fP
 .fi
 .SH DESCRIPTION
-.B xcalc
+.B xmcalc
 is a scientific calculator desktop accessory that can emulate a TI-30
 or an HP-10C.
 .SH OPTIONS
-\fBxcalc\fP accepts all of the standard toolkit command line options along
+\fBxmcalc\fP accepts all of the standard toolkit command line options along
 with these additional options:
 .TP 8
 .B \-stipple
@@ -67,10 +67,10 @@ In this mode the calculator will look and behave like an HP-10C.
 Without this flag, it will emulate a TI-30.
 .TP 8
 .B \-help
-This option indicates that \fBxcalc\fP should print its usage message and exit.
+This option indicates that \fBxmcalc\fP should print its usage message and exit.
 .TP 8
 .B \-version
-This option indicates that \fBxcalc\fP should print its version and exit.
+This option indicates that \fBxmcalc\fP should print its version and exit.
 .SH OPERATION
 .I Pointer Usage:
 Operations may be performed with pointer button 1, or in some cases,
@@ -308,7 +308,7 @@ To clear state, the action procedure is \fBoff\fR; to quit, \fBquit()\fR.
 .B INV
 Inverts the meaning of the function keys.
 This would be the  \fIf\fR key on an HP calculator,
-but \fBxcalc\fR does not display multiple legends on each key.
+but \fBxmcalc\fR does not display multiple legends on each key.
 See the individual function keys for details.
 .TP 10
 .B 10^x
@@ -344,7 +344,7 @@ The corresponding action procedure is \fBroll()\fR.
 .TP 10
 .I blank
 These keys were used for programming functions on the HP-10C.
-Their functionality has not been duplicated in \fBxcalc\fR.
+Their functionality has not been duplicated in \fBxmcalc\fR.
 .PP
 Finally, there are two additional action procedures:
 \fBbell()\fR, which rings the bell;
@@ -352,11 +352,11 @@ and \fBselection()\fR, which performs a cut on the
 entire number in the calculator's ``liquid crystal'' display.
 .SH ACCELERATORS
 Accelerators are shortcuts for entering commands.
-\fBxcalc\fP provides some sample keyboard accelerators;
+\fBxmcalc\fP provides some sample keyboard accelerators;
 also users can customize accelerators.
-The numeric keypad accelerators provided by \fBxcalc\fP
+The numeric keypad accelerators provided by \fBxmcalc\fP
 should be intuitively correct.
-The accelerators defined by \fBxcalc\fP on the main keyboard are given below:
+The accelerators defined by \fBxmcalc\fP on the main keyboard are given below:
 .PP
 .TS
 l l l l l.
@@ -401,9 +401,9 @@ x!	x!	!	factorial()	factorial()
 	ENTR	Linefeed		enter()
 .TE
 .SH CUSTOMIZATION
-The application class name is \fBXCalc\fP.
+The application class name is \fBXmCalc\fP.
 .PP
-\fBxcalc\fP has an enormous application defaults file which specifies
+\fBxmcalc\fP has an enormous application defaults file which specifies
 the position, label, and function of each key on the calculator.
 It also gives translations to serve as keyboard accelerators.
 Because these resources are not specified in the source code, you can create
@@ -417,32 +417,32 @@ individually specified.
 For the TI calculator, a classical color resource specification might be:
 .sp
 .nf
-XCalc.ti.Command.background:	gray50
+XmCalc.ti.Command.background:	gray50
 .br
-XCalc.ti.Command.foreground:	white
+XmCalc.ti.Command.foreground:	white
 .fi
 .sp
 For each of buttons 20, 25, 30, 35, and 40, specify:
 .nf
-XCalc.ti.button20.background:	black
+XmCalc.ti.button20.background:	black
 .br
-XCalc.ti.button20.foreground:	white
+XmCalc.ti.button20.foreground:	white
 .fi
 .sp
 For each of buttons 22, 23, 24, 27, 28, 29, 32, 33, 34, 37, 38, and 39:
 .nf
-XCalc.ti.button22.background:	white
+XmCalc.ti.button22.background:	white
 .br
-XCalc.ti.button22.foreground:	black
+XmCalc.ti.button22.foreground:	black
 .fi
 .SH WIDGET HIERARCHY
 In order to specify resources, it is useful to know the hierarchy of
-the widgets which compose \fBxcalc\fR.  In the notation below,
+the widgets which compose \fBxmcalc\fR.  In the notation below,
 indentation indicates hierarchical structure.  The widget class name
 is given first, followed by the widget instance name.
 .nf
 .ft CW
-XCalc xcalc
+XmCalc xmcalc
         Form  ti  \fIor\fR  hp    \fI(the name depends on the mode)\fR
                 Form  bevel
                         Form  screen
@@ -476,14 +476,14 @@ The default is ``on'' for monochrome displays, and ``off'' for color displays.
 The name of the symbol used to represent the pointer.
 The default is ``hand2''.
 .SH COLORS
-If you would like \fBxcalc\fP to use its TI colors, include the following
+If you would like \fBxmcalc\fP to use its TI colors, include the following
 in the \fB#ifdef COLOR\fP section of the file you read with xrdb:
 .sp 1
 *customization:                 \-color
 .sp 1
-This will cause \fBxcalc\fP to pick up the colors in the app-defaults color
+This will cause \fBxmcalc\fP to pick up the colors in the app-defaults color
 customization file:
-.IR __apploaddir__/XCalc\-color .
+.IR __apploaddir__/XmCalc\-color .
 .SH "SEE ALSO"
 .BR X (__miscmansuffix__),
 .BR xrdb (__appmansuffix__),

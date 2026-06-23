@@ -29,13 +29,13 @@ from the X Consortium.
 */
 
 /*
- * xcalc.h - symbolic constants for xcalc
+ * xmcalc.h - symbolic constants for xmcalc
  *
  * Author:  Donna Converse, MIT X Consortium
  */
 
-#ifndef _XCALC_H_
-#define _XCALC_H_
+#ifndef _XMCALC_H_
+#define _XMCALC_H_
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -127,15 +127,15 @@ from the X Consortium.
 #define kxE    60	/* 0xe */
 #define kxF    61	/* 0xf */
 
-#define XCalc_MEMORY	0	/* memory indicator */
-#define XCalc_INVERSE   1	/* inverse function indicator */
-#define XCalc_DEGREE	2	/* degree indicator */
-#define XCalc_RADIAN	3	/* radian indicator */
-#define XCalc_GRADAM	4	/* grad indicator */
-#define XCalc_PAREN	5	/* parenthesis indicator */
-#define XCalc_HEX	6	/* hexadecimal (base 16) indicator */
-#define XCalc_DEC	7	/* decimal (base 10) indicator */
-#define XCalc_OCT	8	/* octal (base 8) indicator */
+#define XmCalc_MEMORY	0	/* memory indicator */
+#define XmCalc_INVERSE   1	/* inverse function indicator */
+#define XmCalc_DEGREE	2	/* degree indicator */
+#define XmCalc_RADIAN	3	/* radian indicator */
+#define XmCalc_GRADAM	4	/* grad indicator */
+#define XmCalc_PAREN	5	/* parenthesis indicator */
+#define XmCalc_HEX	6	/* hexadecimal (base 16) indicator */
+#define XmCalc_DEC	7	/* decimal (base 10) indicator */
+#define XmCalc_OCT	8	/* octal (base 8) indicator */
 
 /* actions.c */
 extern XtActionsRec Actions[];
@@ -173,7 +173,7 @@ extern void ResetCalc(void);
 extern jmp_buf env;
 #endif
 
-/* xcalc.c */
+/* xmcalc.c */
 extern void draw(char *string);
 extern void Quit(void) _X_NORETURN;
 extern void ringbell(void);

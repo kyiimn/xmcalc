@@ -29,20 +29,20 @@ from the X Consortium.
 */
 
 /*
- * actions.c - externally available procedures for xcalc
+ * actions.c - externally available procedures for xmcalc
  *
  * Author:  Donna Converse, MIT X Consortium
  */
 
 #include <X11/Intrinsic.h>
 #include <setjmp.h>
-#include "xcalc.h"
+#include "xmcalc.h"
 
 #ifndef IEEE
-#define XCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; \
+#define XMCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; \
 		       if (setjmp (env)) {fail_op(); return;}} while (0)
 #else
-#define XCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; } while (0)
+#define XMCALC_PRE_OP(keynum) do { if (pre_op(keynum)) return; } while (0)
 #endif
 
 static void add(Widget w, XEvent *ev, String *vector, Cardinal *count);
@@ -159,7 +159,7 @@ int ActionsCount = XtNumber(Actions);
 static void add(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kADD);
+    XMCALC_PRE_OP(kADD);
     rpn ? twof(kADD) : twoop(kADD);
     post_op();
 }
@@ -168,7 +168,7 @@ static void add(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void and(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kAND);
+    XMCALC_PRE_OP(kAND);
     rpn ? twof(kAND) : twoop(kAND);
     post_op();
 }
@@ -177,7 +177,7 @@ static void and(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void back(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                  _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kBKSP);
+    XMCALC_PRE_OP(kBKSP);
     bkspf();
     post_op();
 }
@@ -186,7 +186,7 @@ static void back(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void base(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                  _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kBASE);
+    XMCALC_PRE_OP(kBASE);
     change_base();
     post_op();
 }
@@ -202,7 +202,7 @@ static void bell(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void clearit(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                     _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kCLR);
+    XMCALC_PRE_OP(kCLR);
     clearf();
     post_op();
 }
@@ -211,7 +211,7 @@ static void clearit(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void cosine(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kCOS);
+    XMCALC_PRE_OP(kCOS);
     oneop(kCOS);
     post_op();
 }
@@ -220,7 +220,7 @@ static void cosine(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void decimal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                     _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kDEC);
+    XMCALC_PRE_OP(kDEC);
     decf();
     post_op();
 }
@@ -229,7 +229,7 @@ static void decimal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void degree(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kDRG);
+    XMCALC_PRE_OP(kDRG);
     drgf();
     post_op();
 }
@@ -240,22 +240,22 @@ static void digit(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 {
     switch (vector[0][0])
     {
-      case '0': XCALC_PRE_OP(kZERO); numeric(kZERO); break;
-      case '1':	XCALC_PRE_OP(kONE); numeric(kONE); break;
-      case '2': XCALC_PRE_OP(kTWO); numeric(kTWO); break;
-      case '3': XCALC_PRE_OP(kTHREE); numeric(kTHREE); break;
-      case '4': XCALC_PRE_OP(kFOUR); numeric(kFOUR); break;
-      case '5': XCALC_PRE_OP(kFIVE); numeric(kFIVE); break;
-      case '6': XCALC_PRE_OP(kSIX); numeric(kSIX); break;
-      case '7': XCALC_PRE_OP(kSEVEN); numeric(kSEVEN); break;
-      case '8': XCALC_PRE_OP(kEIGHT); numeric(kEIGHT); break;
-      case '9': XCALC_PRE_OP(kNINE); numeric(kNINE); break;
-      case 'A': XCALC_PRE_OP(kxA); numeric(kxA); break;
-      case 'B': XCALC_PRE_OP(kxB); numeric(kxB); break;
-      case 'C': XCALC_PRE_OP(kxC); numeric(kxC); break;
-      case 'D': XCALC_PRE_OP(kxD); numeric(kxD); break;
-      case 'E': XCALC_PRE_OP(kxE); numeric(kxE); break;
-      case 'F': XCALC_PRE_OP(kxF); numeric(kxF); break;
+      case '0': XMCALC_PRE_OP(kZERO); numeric(kZERO); break;
+      case '1':	XMCALC_PRE_OP(kONE); numeric(kONE); break;
+      case '2': XMCALC_PRE_OP(kTWO); numeric(kTWO); break;
+      case '3': XMCALC_PRE_OP(kTHREE); numeric(kTHREE); break;
+      case '4': XMCALC_PRE_OP(kFOUR); numeric(kFOUR); break;
+      case '5': XMCALC_PRE_OP(kFIVE); numeric(kFIVE); break;
+      case '6': XMCALC_PRE_OP(kSIX); numeric(kSIX); break;
+      case '7': XMCALC_PRE_OP(kSEVEN); numeric(kSEVEN); break;
+      case '8': XMCALC_PRE_OP(kEIGHT); numeric(kEIGHT); break;
+      case '9': XMCALC_PRE_OP(kNINE); numeric(kNINE); break;
+      case 'A': XMCALC_PRE_OP(kxA); numeric(kxA); break;
+      case 'B': XMCALC_PRE_OP(kxB); numeric(kxB); break;
+      case 'C': XMCALC_PRE_OP(kxC); numeric(kxC); break;
+      case 'D': XMCALC_PRE_OP(kxD); numeric(kxD); break;
+      case 'E': XMCALC_PRE_OP(kxE); numeric(kxE); break;
+      case 'F': XMCALC_PRE_OP(kxF); numeric(kxF); break;
     }
     post_op();
 }
@@ -264,7 +264,7 @@ static void digit(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void divide(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kDIV);
+    XMCALC_PRE_OP(kDIV);
     rpn  ? twof(kDIV) : twoop(kDIV);
     post_op();
 }
@@ -273,7 +273,7 @@ static void divide(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void e(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
               _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kE);
+    XMCALC_PRE_OP(kE);
     oneop(kE);
     post_op();
 }
@@ -282,7 +282,7 @@ static void e(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void enter(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                   _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kENTR);
+    XMCALC_PRE_OP(kENTR);
     entrf();
     post_op();
 }
@@ -291,7 +291,7 @@ static void enter(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void epower(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kEXP);
+    XMCALC_PRE_OP(kEXP);
     oneop(kEXP);
     post_op();
 }
@@ -300,7 +300,7 @@ static void epower(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void equal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                   _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kEQU);
+    XMCALC_PRE_OP(kEQU);
     equf();
     post_op();
 }
@@ -309,7 +309,7 @@ static void equal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void exchange(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                      _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kEXC);
+    XMCALC_PRE_OP(kEXC);
     oneop(kEXC);
     post_op();
 }
@@ -318,7 +318,7 @@ static void exchange(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void factorial(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                       _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kFACT);
+    XMCALC_PRE_OP(kFACT);
     oneop(kFACT);
     post_op();
 }
@@ -327,7 +327,7 @@ static void factorial(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void inverse(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                     _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kINV);
+    XMCALC_PRE_OP(kINV);
     invf();
     post_op();
 }
@@ -336,7 +336,7 @@ static void inverse(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void leftParen(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                       _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kLPAR);
+    XMCALC_PRE_OP(kLPAR);
     lparf();
     post_op();
 }
@@ -345,7 +345,7 @@ static void leftParen(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void logarithm(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                       _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kLOG);
+    XMCALC_PRE_OP(kLOG);
     oneop(kLOG);
     post_op();
 }
@@ -354,7 +354,7 @@ static void logarithm(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void mod(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kMOD);
+    XMCALC_PRE_OP(kMOD);
     rpn ? twof(kMOD) : twoop(kMOD);
     post_op();
 }
@@ -363,7 +363,7 @@ static void mod(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void multiply(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                      _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kMUL);
+    XMCALC_PRE_OP(kMUL);
     rpn ? twof(kMUL) : twoop(kMUL);
     post_op();
 }
@@ -372,7 +372,7 @@ static void multiply(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void naturalLog(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kLN);
+    XMCALC_PRE_OP(kLN);
     oneop(kLN);
     post_op();
 }
@@ -381,7 +381,7 @@ static void naturalLog(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void negate(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kNEG);
+    XMCALC_PRE_OP(kNEG);
     negf();
     post_op();
 }
@@ -397,7 +397,7 @@ static void nop(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void not(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kNOT);
+    XMCALC_PRE_OP(kNOT);
     oneop(kNOT);
     post_op();
 }
@@ -406,7 +406,7 @@ static void not(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void off(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kOFF);
+    XMCALC_PRE_OP(kOFF);
     offf();
     post_op();
 }
@@ -415,7 +415,7 @@ static void off(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void or(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kOR);
+    XMCALC_PRE_OP(kOR);
     rpn ? twof(kOR) : twoop(kOR);
     post_op();
 }
@@ -424,7 +424,7 @@ static void or(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void pi(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kPI);
+    XMCALC_PRE_OP(kPI);
     oneop(kPI);
     post_op();
 }
@@ -433,7 +433,7 @@ static void pi(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void power(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                   _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kPOW);
+    XMCALC_PRE_OP(kPOW);
     rpn ? twof(kPOW) : twoop(kPOW);
     post_op();
 }
@@ -453,7 +453,7 @@ static void quit(_X_UNUSED Widget w, XEvent *ev,
 static void recall(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kRCL);
+    XMCALC_PRE_OP(kRCL);
     rpn ? memf(kRCL) : oneop(kRCL);
     post_op();
 }
@@ -462,7 +462,7 @@ static void recall(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void reciprocal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kRECIP);
+    XMCALC_PRE_OP(kRECIP);
     oneop(kRECIP);
     post_op();
 }
@@ -471,7 +471,7 @@ static void reciprocal(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void rightParen(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kRPAR);
+    XMCALC_PRE_OP(kRPAR);
     rparf();
     post_op();
 }
@@ -480,7 +480,7 @@ static void rightParen(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void roll(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                  _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kROLL);
+    XMCALC_PRE_OP(kROLL);
     rollf();
     post_op();
 }
@@ -489,7 +489,7 @@ static void roll(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void scientific(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kEE);
+    XMCALC_PRE_OP(kEE);
     eef();
     post_op();
 }
@@ -499,7 +499,7 @@ static void scientific(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void shl(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSHL);
+    XMCALC_PRE_OP(kSHL);
     rpn ? twof(kSHL) : twoop(kSHL);
     post_op();
 }
@@ -508,7 +508,7 @@ static void shl(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void shr(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSHR);
+    XMCALC_PRE_OP(kSHR);
     rpn ? twof(kSHR) : twoop(kSHR);
     post_op();
 }
@@ -517,7 +517,7 @@ static void shr(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void sine(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                  _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSIN);
+    XMCALC_PRE_OP(kSIN);
     oneop(kSIN);
     post_op();
 }
@@ -526,7 +526,7 @@ static void sine(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void square(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSQR);
+    XMCALC_PRE_OP(kSQR);
     oneop(kSQR);
     post_op();
 }
@@ -535,7 +535,7 @@ static void square(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void squareRoot(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSQRT);
+    XMCALC_PRE_OP(kSQRT);
     oneop(kSQRT);
     post_op();
 }
@@ -544,7 +544,7 @@ static void squareRoot(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void store(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                   _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSTO);
+    XMCALC_PRE_OP(kSTO);
     rpn ? memf(kSTO) : oneop(kSTO);
     post_op();
 }
@@ -553,7 +553,7 @@ static void store(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void subtract(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                      _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSUB);
+    XMCALC_PRE_OP(kSUB);
     rpn ? twof(kSUB) : twoop(kSUB);
     post_op();
 }
@@ -562,7 +562,7 @@ static void subtract(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void sum(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kSUM);
+    XMCALC_PRE_OP(kSUM);
     rpn ? memf(kSUM) : oneop(kSUM);
     post_op();
 }
@@ -571,7 +571,7 @@ static void sum(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void tangent(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                     _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kTAN);
+    XMCALC_PRE_OP(kTAN);
     oneop(kTAN);
     post_op();
 }
@@ -580,7 +580,7 @@ static void tangent(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void tenpower(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                      _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(k10X);
+    XMCALC_PRE_OP(k10X);
     oneop(k10X);
     post_op();
 }
@@ -589,7 +589,7 @@ static void tenpower(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void xtrunc(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                    _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kTRUNC);
+    XMCALC_PRE_OP(kTRUNC);
     oneop(kTRUNC);
     post_op();
 }
@@ -598,7 +598,7 @@ static void xtrunc(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void xor(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                 _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kXOR);
+    XMCALC_PRE_OP(kXOR);
     rpn ? twof(kXOR) : twoop(kXOR);
     post_op();
 }
@@ -607,7 +607,7 @@ static void xor(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
 static void XexchangeY(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
                        _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
 {
-    XCALC_PRE_OP(kXXY);
+    XMCALC_PRE_OP(kXXY);
     twof(kXXY);
     post_op();
 }

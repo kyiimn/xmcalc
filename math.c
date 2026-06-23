@@ -16,7 +16,7 @@
  *  Geoffrey Coram fixed most of the HP mode bugs.
  */
 
-#include "xcalc.h"
+#include "xmcalc.h"
 
 #ifndef M_PI        /* sometimes defined in math.h */
 #define M_PI        3.14159265358979323846
@@ -62,8 +62,8 @@ static int memop  =kCLR;
 static int exponent=0;
 static double acc =0.0;
 static double dnum=0.0;
-#define XCALC_MEMORY 10
-static double mem[XCALC_MEMORY] = { 0.0 };
+#define XMCALC_MEMORY 10
+static double mem[XMCALC_MEMORY] = { 0.0 };
 
 static void   DrawDisplay(void);
 static void   PushOp(int op);
@@ -79,7 +79,7 @@ static void   ClearStacks(void);
 static int    priority(int op);
 
 #ifndef HAVE_STRLCPY
-/* Close enough for the short strings copied in xcalc */
+/* Close enough for the short strings copied in xmcalc */
 static inline size_t
 strlcpy(char *dst, const char *src, size_t size)
 {
@@ -229,15 +229,15 @@ DrawDisplay(void)
         }
     }
     draw(dispstr);
-    setflag(XCalc_MEMORY, (flagM));
-    setflag(XCalc_INVERSE, (flagINV));
-    setflag(XCalc_DEGREE, (drgmode==DEG));
-    setflag(XCalc_RADIAN, (drgmode==RAD));
-    setflag(XCalc_GRADAM, (drgmode==GRAD));
-    setflag(XCalc_PAREN, (flagPAREN));
-    setflag(XCalc_HEX, (numbase==16));
-    setflag(XCalc_DEC, (numbase==10));
-    setflag(XCalc_OCT, (numbase==8));
+    setflag(XmCalc_MEMORY, (flagM));
+    setflag(XmCalc_INVERSE, (flagINV));
+    setflag(XmCalc_DEGREE, (drgmode==DEG));
+    setflag(XmCalc_RADIAN, (drgmode==RAD));
+    setflag(XmCalc_GRADAM, (drgmode==GRAD));
+    setflag(XmCalc_PAREN, (flagPAREN));
+    setflag(XmCalc_HEX, (numbase==16));
+    setflag(XmCalc_DEC, (numbase==10));
+    setflag(XmCalc_OCT, (numbase==8));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -869,7 +869,7 @@ offf(void)
   lift_enabled = 0;
   dnum=mem[0]=0.0;
   if (rpn)
-      for (int i=1; i < XCALC_MEMORY; i++)
+      for (int i=1; i < XMCALC_MEMORY; i++)
 	  mem[i]=0.0;
   exponent=Dpoint=0;
   DrawDisplay();
@@ -1025,15 +1025,15 @@ ResetCalc(void)
 {
     flagM=flagINV=flagPAREN=0;  drgmode=DEG;
     numbase=(!numbase ? 10 : numbase);
-    setflag(XCalc_MEMORY, False);
-    setflag(XCalc_INVERSE, False);
-    setflag(XCalc_PAREN, False);
-    setflag(XCalc_RADIAN, False);
-    setflag(XCalc_GRADAM, False);
-    setflag(XCalc_DEGREE, True);
-    setflag(XCalc_HEX, False);
-    setflag(XCalc_DEC, True);
-    setflag(XCalc_OCT, False);
+    setflag(XmCalc_MEMORY, False);
+    setflag(XmCalc_INVERSE, False);
+    setflag(XmCalc_PAREN, False);
+    setflag(XmCalc_RADIAN, False);
+    setflag(XmCalc_GRADAM, False);
+    setflag(XmCalc_DEGREE, True);
+    setflag(XmCalc_HEX, False);
+    setflag(XmCalc_DEC, True);
+    setflag(XmCalc_OCT, False);
     strlcpy(dispstr, "0", sizeof(dispstr));
     draw(dispstr);
     ClearStacks();

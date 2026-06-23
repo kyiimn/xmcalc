@@ -29,7 +29,7 @@ from the X Consortium.
 */
 
 /*
- * xcalc.c  -  a hand calculator for the X Window system
+ * xmcalc.c  -  a hand calculator for the X Window system
  *
  *  Original Author:  John H. Bradley, University of Pennsylvania
  *			(bradley@cis.upenn.edu)  March, 1987
@@ -46,7 +46,7 @@ from the X Consortium.
 #include <X11/Xfuncproto.h>
 #include <X11/Shell.h>
 #include <X11/cursorfont.h>
-#include "xcalc.h"
+#include "xmcalc.h"
 
 #ifndef ONE
 #define ONE  1
@@ -392,7 +392,7 @@ main(int argc, char **argv)
 	}
     }
 
-    toplevel = XtAppInitialize(&xtcontext, "XCalc", Options, XtNumber(Options),
+    toplevel = XtAppInitialize(&xtcontext, "XmCalc", Options, XtNumber(Options),
 			       &argc, argv, NULL, NULL, 0);
     if (argc != 1) Syntax(argc, argv);
 
@@ -546,22 +546,22 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
-    ind[XCalc_MEMORY] = XtCreateManagedWidget("M", xmLabelWidgetClass, screen,
+    ind[XmCalc_MEMORY] = XtCreateManagedWidget("M", xmLabelWidgetClass, screen,
 					args, n);
 
     /* liquid crystal display */
     n = 0;
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
-    XtSetArg(args[n], XmNeditable, False); n++;
-    XtSetArg(args[n], XmNcursorPositionVisible, False); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    XtSetArg(args[n], XmNrecomputeSize, False); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_MEMORY]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_MEMORY]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightOffset, 4); n++;
     XtSetArg(args[n], XmNleftOffset, 4); n++;
     XtSetArg(args[n], XmNtopOffset, 2); n++;
-    LCD = XtCreateManagedWidget("LCD", xmTextFieldWidgetClass, screen, args,
+    LCD = XtCreateManagedWidget("LCD", xmLabelWidgetClass, screen, args,
 				n);
 
     /* INV - the inverse function indicator */
@@ -571,7 +571,7 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
-    ind[XCalc_INVERSE] = XtCreateManagedWidget("INV", xmLabelWidgetClass,
+    ind[XmCalc_INVERSE] = XtCreateManagedWidget("INV", xmLabelWidgetClass,
 					 screen, args, n);
 
     /* DEG - the degrees switch indicator */
@@ -579,11 +579,11 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_INVERSE]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_INVERSE]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
     XtSetArg(args[n], XmNleftOffset, 1); n++;
-    ind[XCalc_DEGREE] = XtCreateManagedWidget("DEG", xmLabelWidgetClass, screen,
+    ind[XmCalc_DEGREE] = XtCreateManagedWidget("DEG", xmLabelWidgetClass, screen,
 					args, n);
 
     /* RAD - the radian switch indicator */
@@ -591,10 +591,10 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_DEGREE]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_DEGREE]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
-    ind[XCalc_RADIAN] = XtCreateManagedWidget("RAD", xmLabelWidgetClass, screen,
+    ind[XmCalc_RADIAN] = XtCreateManagedWidget("RAD", xmLabelWidgetClass, screen,
 					args, n);
 
     /* GRAD - the grad switch indicator */
@@ -602,10 +602,10 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_RADIAN]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_RADIAN]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
-    ind[XCalc_GRADAM] = XtCreateManagedWidget("GRAD", xmLabelWidgetClass, screen,
+    ind[XmCalc_GRADAM] = XtCreateManagedWidget("GRAD", xmLabelWidgetClass, screen,
 					args, n);
 
     /* () - the parenthesis indicator */
@@ -613,11 +613,11 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_GRADAM]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_GRADAM]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
     XtSetArg(args[n], XmNleftOffset, 2); n++;
-    ind[XCalc_PAREN] = XtCreateManagedWidget("P", xmLabelWidgetClass, screen,
+    ind[XmCalc_PAREN] = XtCreateManagedWidget("P", xmLabelWidgetClass, screen,
 					     args, n);
 
     /* HEX - the hexadecimal (base 16) indicator */
@@ -625,11 +625,11 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_PAREN]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_PAREN]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
     XtSetArg(args[n], XmNleftOffset, 1); n++;
-    ind[XCalc_HEX] = XtCreateManagedWidget("HEX", xmLabelWidgetClass, screen,
+    ind[XmCalc_HEX] = XtCreateManagedWidget("HEX", xmLabelWidgetClass, screen,
 					   args, n);
 
     /* DEC - the decimal (base 10) indicator */
@@ -637,11 +637,11 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_PAREN]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_PAREN]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
     XtSetArg(args[n], XmNleftOffset, 1); n++;
-    ind[XCalc_DEC] = XtCreateManagedWidget("DEC", xmLabelWidgetClass, screen,
+    ind[XmCalc_DEC] = XtCreateManagedWidget("DEC", xmLabelWidgetClass, screen,
 					   args, n);
 
     /* OCT - the octal (base 8) indicator */
@@ -649,11 +649,11 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
     XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
-    XtSetArg(args[n], XmNleftWidget, ind[XCalc_PAREN]); n++;
+    XtSetArg(args[n], XmNleftWidget, ind[XmCalc_PAREN]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, LCD); n++;
     XtSetArg(args[n], XmNleftOffset, 1); n++;
-    ind[XCalc_OCT] = XtCreateManagedWidget("OCT", xmLabelWidgetClass, screen,
+    ind[XmCalc_OCT] = XtCreateManagedWidget("OCT", xmLabelWidgetClass, screen,
 					   args, n);
 }
 
@@ -1019,48 +1019,11 @@ static void set_button_sizes(Widget *btns, int count, int width, int height)
 
 void draw(char *string)
 {
-    Dimension width = 0;
+    XmString str = XmStringCreateLocalized(string);
     Arg arg;
-    XtSetArg(arg, XmNwidth, &width);
-    XtGetValues(LCD, &arg, 1);
-
-    XmFontList font_list = NULL;
-    XtSetArg(arg, XmNfontList, &font_list);
-    XtGetValues(LCD, &arg, 1);
-
-    int char_width = 8;
-    if (font_list) {
-	XmFontContext context;
-	if (XmFontListInitFontContext(&context, font_list)) {
-	    XmFontListEntry entry;
-	    while ((entry = XmFontListNextEntry(context)) != NULL) {
-		XmFontType type;
-		XtPointer font_entry = XmFontListEntryGetFont(entry, &type);
-		if (type == XmFONT_IS_FONT && font_entry) {
-		    XFontStruct *fs = (XFontStruct *)font_entry;
-		    if (fs->max_bounds.width > 0) {
-			char_width = fs->max_bounds.width;
-			break;
-		    }
-		}
-	    }
-	    XmFontListFreeFontContext(context);
-	}
-    }
-
-    int max_chars = (int)(width / char_width);
-    if (max_chars < 1) max_chars = 1;
-    if (max_chars > LCD_STR_LEN - 1) max_chars = LCD_STR_LEN - 1;
-    int str_len = (int)strlen(string);
-    if (str_len < max_chars) {
-	char buf[LCD_STR_LEN];
-	int pad = max_chars - str_len;
-	memset(buf, ' ', pad);
-	memcpy(buf + pad, string, str_len + 1);
-	XmTextFieldSetString(LCD, buf);
-    } else {
-	XmTextFieldSetString(LCD, string);
-    }
+    XtSetArg(arg, XmNlabelString, str);
+    XtSetValues(LCD, &arg, 1);
+    XmStringFree(str);
 }
 
 /*

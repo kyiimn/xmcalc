@@ -20,16 +20,16 @@
 #  PERFORMANCE OF THIS SOFTWARE.
 
 SUBDIRS = man
-bin_PROGRAMS = xcalc
+bin_PROGRAMS = xmcalc
 
-AM_CFLAGS = $(XCALC_CFLAGS) $(CWARNFLAGS) -D_CONST_X_STRING
-xcalc_LDADD = $(XCALC_LIBS) -lm
+AM_CFLAGS = $(XMCALC_CFLAGS) $(CWARNFLAGS) -D_CONST_X_STRING
+xmcalc_LDADD = $(XMCALC_LIBS) -lm
 
-xcalc_SOURCES =	\
+xmcalc_SOURCES =	\
         actions.c \
         math.c \
-        xcalc.c \
-        xcalc.h
+        xmcalc.c \
+        xmcalc.h
 
 # App default files  (*.ad)
 
@@ -38,8 +38,8 @@ DISTCHECK_CONFIGURE_FLAGS = --with-appdefaultdir=\$${datadir}/X11/app-defaults
 appdefaultdir = @appdefaultdir@
 
 dist_appdefault_DATA = \
-        app-defaults/XCalc \
-        app-defaults/XCalc-color
+        app-defaults/XmCalc \
+        app-defaults/XmCalc-color
 
 MAINTAINERCLEANFILES = ChangeLog INSTALL
 
