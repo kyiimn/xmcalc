@@ -457,7 +457,11 @@ static void create_calculator(Widget shell)
 	Arg h_arg;
 	XtSetArg(h_arg, XmNheight, (XtArgVal)56);
 	XtSetValues(buttons[25], &h_arg, 1);
-	/* Make buttons 21 and 22 invisible but keep them managed for layout */
+	/* Make buttons 21 and 22 invisible but keep them managed for layout.
+	 * mappedWhenManaged=False keeps them in the XmForm layout (they
+	 * occupy space) but prevents them from being displayed.
+	 * Re-apply width/height AFTER setting invisible props because
+	 * Motif recalculates preferred size when labelString/shadow changes. */
 	{
 	    Arg inv_args[5];
 	    int inv_n;
@@ -471,6 +475,14 @@ static void create_calculator(Widget shell)
 		XtSetValues(buttons[bi], inv_args, inv_n);
 	    }
 	    XmStringFree(empty);
+	    /* Re-apply size so invisible buttons still occupy 40x26 in layout */
+	    {
+		Arg sz_args[2];
+		XtSetArg(sz_args[0], XmNwidth, (XtArgVal)40);
+		XtSetArg(sz_args[1], XmNheight, (XtArgVal)26);
+		XtSetValues(buttons[20], sz_args, 2);
+		XtSetValues(buttons[21], sz_args, 2);
+	    }
 	}
     } else {
 	set_ti_attachments(calculator, bevel, buttons);
