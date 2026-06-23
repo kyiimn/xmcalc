@@ -445,8 +445,11 @@ main(int argc, char **argv)
 static void create_calculator(Widget shell)
 {
     rpn = appResources.rpn;
+    Arg form_args[1];
+    int form_n = 0;
+    XtSetArg(form_args[form_n], XmNmarginWidth, 4); form_n++;
     calculator = XtCreateManagedWidget(rpn ? "hp" : "ti", xmFormWidgetClass,
-				       shell, (ArgList) NULL, ZERO);
+				       shell, form_args, form_n);
     create_display(calculator);
     create_keypad(calculator);
     if (rpn) {
@@ -484,7 +487,7 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
-    XtSetArg(args[n], XmNleftOffset, 4); n++;
+    XtSetArg(args[n], XmNleftOffset, 0); n++;
     XtSetArg(args[n], XmNtopOffset, 2); n++;
     bevel = XtCreateManagedWidget("bevel", xmFrameWidgetClass, parent,
 				  args, n);
@@ -660,7 +663,7 @@ static void set_ti_attachments(Widget form, Widget bevel_w, Widget *btns)
 	n = 0;
 	if (i % cols == 0) {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
-	    XtSetArg(args[n], XmNleftOffset, 4); n++;
+	    XtSetArg(args[n], XmNleftOffset, 0); n++;
 	} else {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
 	    XtSetArg(args[n], XmNleftWidget, btns[i - 1]); n++;
@@ -693,7 +696,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	n = 0;
 	if (i == 0) {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
-	    XtSetArg(args[n], XmNleftOffset, 4); n++;
+	    XtSetArg(args[n], XmNleftOffset, 0); n++;
 	} else {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
 	    XtSetArg(args[n], XmNleftWidget, btns[i - 1]); n++;
@@ -709,7 +712,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	n = 0;
 	if (i == 10) {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
-	    XtSetArg(args[n], XmNleftOffset, 4); n++;
+	    XtSetArg(args[n], XmNleftOffset, 0); n++;
 	} else {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
 	    XtSetArg(args[n], XmNleftWidget, btns[i - 1]); n++;
@@ -724,7 +727,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
 	n = 0;
 	if (i == 20) {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
-	    XtSetArg(args[n], XmNleftOffset, 4); n++;
+	    XtSetArg(args[n], XmNleftOffset, 0); n++;
 	} else {
 	    XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
 	    XtSetArg(args[n], XmNleftWidget, btns[i - 1]); n++;
@@ -738,7 +741,7 @@ static void set_hp_attachments(Widget form, Widget bevel_w, Widget *btns)
     /* button31: left=FORM, top=button21 (even though 21 is unmapped) */
     n = 0;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
-    XtSetArg(args[n], XmNleftOffset, 4); n++;
+    XtSetArg(args[n], XmNleftOffset, 0); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNtopWidget, btns[20]); n++; /* button21 */
     XtSetValues(btns[30], args, n);
