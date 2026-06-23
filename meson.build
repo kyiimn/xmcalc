@@ -47,9 +47,17 @@ conf.set('HAVE_STRLCPY', cc.has_function('strlcpy') ? '1' : false)
 
 config_h = configure_file(output: 'config.h', configuration: conf)
 add_project_arguments('-DHAVE_CONFIG_H', language: ['c'])
+inc_config = include_directories('.')
 
 # Checks for pkg-config packages
-dep_libxm = dependency('xm', required: true)
+dep_libxm = dependency('xm', required: false)
+if not dep_libxm.found()
+  dep_libxm = dependency('motif', required: false)
+endif
+if not dep_libxm.found()
+  dep_libxm = cc.find_library('Xm', required: true,
+    has_headers: ['Xm/Xm.h'])
+endif
 dep_libxt  = dependency('xt', required: true)
 dep_libx11 = dependency('x11', required: true)
 dep_xproto = dependency('xproto', required: true, version: '>= 7.0.22')
@@ -61,6 +69,7 @@ add_project_arguments('-D_CONST_X_STRING', language: ['c'])
 executable(
   'xcalc',
   [config_h, 'actions.c', 'math.c', 'xcalc.c', 'xcalc.h'],
+  include_directories: inc_config,
   dependencies: [dep_libxm, dep_libxt, dep_libx11, dep_xproto, dep_libm],
   install: true
 )

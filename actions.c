@@ -81,7 +81,7 @@ static void reciprocal(Widget w, XEvent *ev, String *vector, Cardinal *count);
 static void rightParen(Widget w, XEvent *ev, String *vector, Cardinal *count);
 static void roll(Widget w, XEvent *ev, String *vector, Cardinal *count);
 static void scientific(Widget w, XEvent *ev, String *vector, Cardinal *count);
-static void selection(Widget w, XEvent *ev, String *vector, Cardinal *count);
+
 static void shl(Widget w, XEvent *ev, String *vector, Cardinal *count);
 static void shr(Widget w, XEvent *ev, String *vector, Cardinal *count);
 static void sine(Widget w, XEvent *ev, String *vector, Cardinal *count);
@@ -137,7 +137,7 @@ XtActionsRec	Actions[] = {
 {"rightParen",	rightParen},	/* TI-specific left parenthesis */
 {"roll",	roll},		/* HP-specific roll stack */
 {"scientific",	scientific},	/* scientific notation (EE) */
-{"selection",	selection},	/* copy selection */
+
 {"shl",		shl},		/* arithmetic shift left */
 {"shr",		shr},		/* arithmetic shift right */
 {"sine",	sine},		/* trigonometric function sine */
@@ -494,12 +494,6 @@ static void scientific(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,
     post_op();
 }
 
-/*ARGSUSED*/
-static void selection(_X_UNUSED Widget w, XEvent *ev,
-                      _X_UNUSED String *vector, _X_UNUSED Cardinal *count)
-{
-    do_select(((XButtonReleasedEvent *)ev)->time);
-}
 
 /*ARGSUSED*/
 static void shl(_X_UNUSED Widget w, _X_UNUSED XEvent *ev,

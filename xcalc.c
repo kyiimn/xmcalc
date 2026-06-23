@@ -34,7 +34,7 @@ from the X Consortium.
  *  Original Author:  John H. Bradley, University of Pennsylvania
  *			(bradley@cis.upenn.edu)  March, 1987
  *  RPN mode added and port to X11 by Mark Rosenstein, MIT Project Athena
- *  Rewritten to be an Xaw and Xt client by Donna Converse, MIT X Consortium
+ *  Rewritten to be a Motif (Xm) and Xt client by OpenMotif migration
  */
 
 #include <stdio.h>
@@ -45,21 +45,19 @@ from the X Consortium.
 #include <X11/Xatom.h>
 #include <X11/Xfuncproto.h>
 #include <X11/Shell.h>
-#include <X11/Xaw/Cardinals.h>
-#include <X11/Xaw/Form.h>
-#include <X11/Xaw/Label.h>
-#include <X11/Xaw/Command.h>
-#include <X11/Xaw/Toggle.h>
 #include <X11/cursorfont.h>
 #include "xcalc.h"
 
-static Boolean convert(Widget w, Atom *selection, Atom *target, Atom *type,
-		       XtPointer *value, unsigned long *length, int *format);
+#ifndef ONE
+#define ONE  1
+#endif
+#ifndef ZERO
+#define ZERO 0
+#endif
+
 static void create_keypad(Widget parent);
 static void create_display(Widget parent);
 static void create_calculator(Widget shell);
-static void done(Widget w, Atom *selection, Atom *target);
-static void lose(Widget w, Atom *selection);
 static void Syntax(int argc, char **argv) _X_NORETURN;
 
 /*
@@ -77,7 +75,6 @@ static Widget	toplevel=NULL;  	/* top level shell widget */
 static Widget   calculator=NULL;	/* an underlying form widget */
 static Widget	LCD = NULL;		/* liquid crystal display */
 static Widget	ind[9];			/* mode indicators in the screen */
-static char	selstr[LCD_STR_LEN]; /* storage for selections from the LCD */
 					/* checkerboard used in mono mode */
 static XtAppContext xtcontext;		/* Toolkit application context */
 #define check_width 16
@@ -186,7 +183,7 @@ main(int argc, char **argv)
 static void create_calculator(Widget shell)
 {
     rpn = appResources.rpn;
-    calculator = XtCreateManagedWidget(rpn ? "hp" : "ti", formWidgetClass,
+    calculator = XtCreateManagedWidget(rpn ? "hp" : "ti", xmFormWidgetClass,
 				       shell, (ArgList) NULL, ZERO);
     create_display(calculator);
     create_keypad(calculator);
@@ -199,58 +196,88 @@ static void create_calculator(Widget shell)
 static void create_display(Widget parent)
 {
     Widget	bevel, screen;
-    static Arg	args[] = {
-    	{XtNborderWidth, (XtArgVal)0},
-    	{XtNjustify, (XtArgVal)XtJustifyRight}
-    };
+    Arg		args[4];
+    int		n;
 
     /* the frame surrounding the calculator display */
-    bevel = XtCreateManagedWidget("bevel", formWidgetClass, parent,
+    bevel = XtCreateManagedWidget("bevel", xmFrameWidgetClass, parent,
 				  (ArgList) NULL, ZERO);
 
     /* the screen of the calculator */
-    screen = XtCreateManagedWidget("screen", formWidgetClass, bevel,
+    screen = XtCreateManagedWidget("screen", xmFormWidgetClass, bevel,
 				   (ArgList) NULL, ZERO);
 
     /* M - the memory indicator */
-    ind[XCalc_MEMORY] = XtCreateManagedWidget("M", labelWidgetClass, screen,
-					args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_MEMORY] = XtCreateManagedWidget("M", xmLabelWidgetClass, screen,
+					args, n);
 
     /* liquid crystal display */
-    LCD = XtCreateManagedWidget("LCD", toggleWidgetClass, screen, args,
-				XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    XtSetArg(args[n], XmNeditable, False); n++;
+    XtSetArg(args[n], XmNcursorPositionVisible, False); n++;
+    LCD = XtCreateManagedWidget("LCD", xmTextFieldWidgetClass, screen, args,
+				n);
 
     /* INV - the inverse function indicator */
-    ind[XCalc_INVERSE] = XtCreateManagedWidget("INV", labelWidgetClass,
-					 screen, args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_INVERSE] = XtCreateManagedWidget("INV", xmLabelWidgetClass,
+					 screen, args, n);
 
     /* DEG - the degrees switch indicator */
-    ind[XCalc_DEGREE] = XtCreateManagedWidget("DEG", labelWidgetClass, screen,
-					args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_DEGREE] = XtCreateManagedWidget("DEG", xmLabelWidgetClass, screen,
+					args, n);
 
     /* RAD - the radian switch indicator */
-    ind[XCalc_RADIAN] = XtCreateManagedWidget("RAD", labelWidgetClass, screen,
-					args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_RADIAN] = XtCreateManagedWidget("RAD", xmLabelWidgetClass, screen,
+					args, n);
 
     /* GRAD - the grad switch indicator */
-    ind[XCalc_GRADAM] = XtCreateManagedWidget("GRAD", labelWidgetClass, screen,
-					args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_GRADAM] = XtCreateManagedWidget("GRAD", xmLabelWidgetClass, screen,
+					args, n);
 
     /* () - the parenthesis indicator */
-    ind[XCalc_PAREN] = XtCreateManagedWidget("P", labelWidgetClass, screen,
-					     args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_PAREN] = XtCreateManagedWidget("P", xmLabelWidgetClass, screen,
+					     args, n);
 
     /* HEX - the hexadecimal (base 16) indicator */
-    ind[XCalc_HEX] = XtCreateManagedWidget("HEX", labelWidgetClass, screen,
-					   args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_HEX] = XtCreateManagedWidget("HEX", xmLabelWidgetClass, screen,
+					   args, n);
 
-    /* DEC - the hexadecimal (base 16) indicator */
-    ind[XCalc_DEC] = XtCreateManagedWidget("DEC", labelWidgetClass, screen,
-					   args, XtNumber(args));
+    /* DEC - the decimal (base 10) indicator */
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_DEC] = XtCreateManagedWidget("DEC", xmLabelWidgetClass, screen,
+					   args, n);
 
     /* OCT - the octal (base 8) indicator */
-    ind[XCalc_OCT] = XtCreateManagedWidget("OCT", labelWidgetClass, screen,
-					   args, XtNumber(args));
+    n = 0;
+    XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
+    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
+    ind[XCalc_OCT] = XtCreateManagedWidget("OCT", xmLabelWidgetClass, screen,
+					   args, n);
 }
 
 /*
@@ -274,14 +301,14 @@ static void create_keypad(Widget parent)
 	"button41","button42","button43","button44","button45",
 	"button46","button47","button48","button49","button50",
 	"button51","button52","button53","button54","button55",
-	};
+    };
     register int i;
     int		 n = XtNumber(Keyboard);
 
     if (appResources.rpn) n--; 	/* HP has 39 buttons, TI has 40 */
 
     for (i=0; i < n; i++)
-	XtCreateManagedWidget(Keyboard[i], commandWidgetClass, parent,
+	XtCreateManagedWidget(Keyboard[i], xmPushButtonWidgetClass, parent,
 			      (ArgList) NULL, ZERO);
 }
 
@@ -294,18 +321,16 @@ static void create_keypad(Widget parent)
  */
 void draw(char *string)
 {
-    Arg	args[1];
-
-    XtSetArg(args[0], XtNlabel, string);
-    XtSetValues(LCD, args, ONE);
+    XmTextFieldSetString(LCD, string);
 }
+
 /*
  *	called by math routines to turn on and off the display indicators.
  */
 void setflag(int indicator, Boolean on)
 {
-    if (on) XtMapWidget(ind[indicator]);
-    else XtUnmapWidget(ind[indicator]);
+    if (on) XtManageChild(ind[indicator]);
+    else XtUnmanageChild(ind[indicator]);
 }
 
 /*
@@ -333,7 +358,7 @@ static void Syntax(int argc, char **argv)
     if (argc > 1) {
         fprintf(stderr, "%s: unknown options:", argv[0]);
         for (int i = 1; i <argc; i++)
-            fprintf(stderr, " %s", argv[i]);
+	    fprintf(stderr, " %s", argv[i]);
         fprintf(stderr, "\n\n");
     }
     fprintf(stderr, "Usage:  %s", argv[0]);
@@ -345,65 +370,4 @@ static void Syntax(int argc, char **argv)
     if (xtcontext != NULL)
         XtDestroyApplicationContext(xtcontext);
     exit((argc > 1) ? 1 : 0);
-}
-
-/*
- * I use actions on the toggle widget to support selections.  This
- * means that the user may not do a partial selection of the number
- * displayed in the `liquid crystal display.'  Copying numbers into
- * the calculator is also not supported.  So all you can do is copy
- * the entire number from the calculator display.
- */
-
-/*ARGSUSED*/
-static Boolean convert(_X_UNUSED Widget w, _X_UNUSED Atom *selection,
-                       Atom *target, Atom *type,
-		       XtPointer *value, unsigned long *length, int *format)
-{
-    if (*target == XA_STRING)
-    {
-	*type = XA_STRING;
-	*length = strlen(dispstr);
-	memcpy(selstr, dispstr, (size_t)(*length));
-	*value = selstr;
-	*format = 8;
-	return True;
-    }
-    return False;
-}
-
-/*
- * called when xcalc loses ownership of the selection.
- */
-/*ARGSUSED*/
-static void lose(_X_UNUSED Widget w, _X_UNUSED Atom *selection)
-{
-    XawToggleUnsetCurrent(LCD);
-}
-
-/*
- * called when some other client got the selection.
- */
-/*ARGSUSED*/
-static void done(_X_UNUSED Widget w, _X_UNUSED Atom *selection,
-                 _X_UNUSED Atom *target)
-{
-    selstr[0] = '\0';
-}
-
-/*
- * called by the selection() action routine, in response to user action.
- */
-void do_select(Time time)
-{
-    Boolean	state;
-    Arg		args[1];
-
-    XtSetArg(args[0], XtNstate, &state);
-    XtGetValues(LCD, args, 1);
-
-    if (state)
-        XtOwnSelection(LCD, XA_PRIMARY, time, convert, lose, done);
-    else
-	selstr[0] = '\0';
 }

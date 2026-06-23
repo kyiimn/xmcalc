@@ -40,7 +40,18 @@ XORG_DEFAULT_OPTIONS
 AC_CHECK_FUNCS([strlcpy])
 
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XCALC, [xm xt x11 xproto >= 7.0.22])
+# Checks for pkg-config packages - try xm, motif, then fallback to AC_CHECK_LIB
+PKG_CHECK_MODULES(XCALC, [xm xt x11 xproto >= 7.0.22],,
+  [PKG_CHECK_MODULES(XCALC, [motif xt x11 xproto >= 7.0.22],,
+    [AC_CHECK_LIB([Xm], [XmCreateForm],,
+      [AC_MSG_ERROR([No Motif/Xm library found])])
+     AC_CHECK_HEADERS([Xm/Xm.h],,
+       [AC_MSG_ERROR([No Xm/Xm.h header found])])
+     XCALC_CFLAGS=""
+     XCALC_LIBS="-lXm -lXt -lX11"
+    ])
+  ])
+)
 
 PKG_CHECK_MODULES(APPDEFS, xt)
 xt_appdefaultdir=`$PKG_CONFIG --variable=appdefaultdir xt`
