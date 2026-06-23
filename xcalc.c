@@ -62,6 +62,9 @@ static void set_ti_attachments(Widget form, Widget bevel, Widget *btns);
 static void set_hp_attachments(Widget form, Widget bevel, Widget *btns);
 static void set_ti_labels(Widget *btns);
 static void set_hp_labels(Widget *btns);
+static void set_ti_translations(Widget *btns);
+static void set_hp_translations(Widget *btns);
+static void set_button_sizes(Widget *btns, int count, int width, int height);
 static void Syntax(int argc, char **argv) _X_NORETURN;
 
 /*
@@ -89,6 +92,257 @@ static unsigned char check_bits[] = {
    0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa,
    0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa,
    0x55, 0x55, 0xaa, 0xaa, 0x55, 0x55, 0xaa, 0xaa};
+
+/*
+ *	TI button translations (buttons 1-55).
+ *	These replace the resource-file translations that Motif does not apply.
+ */
+static const char *ti_translations[] = {
+    "#override<Btn1Down>,<Btn1Up>:reciprocal()",	/* button1 */
+    "#override<Btn1Down>,<Btn1Up>:square()",		/* button2 */
+    "#override<Btn1Down>,<Btn1Up>:squareRoot()",	/* button3 */
+    "#override<Btn1Down>,<Btn1Up>:clear()",		/* button4 */
+    "#override<Btn1Down>,<Btn1Up>:off()\n<Btn3Down>,<Btn3Up>:quit()",	/* button5 */
+    "#override<Btn1Down>,<Btn1Up>:inverse()",		/* button6 */
+    "#override<Btn1Down>,<Btn1Up>:sine()",		/* button7 */
+    "#override<Btn1Down>,<Btn1Up>:cosine()",		/* button8 */
+    "#override<Btn1Down>,<Btn1Up>:tangent()",		/* button9 */
+    "#override<Btn1Down>,<Btn1Up>:degree()",		/* button10 */
+    "#override<Btn1Down>,<Btn1Up>:e()",			/* button11 */
+    "#override<Btn1Down>,<Btn1Up>:scientific()",	/* button12 */
+    "#override<Btn1Down>,<Btn1Up>:logarithm()",		/* button13 */
+    "#override<Btn1Down>,<Btn1Up>:naturalLog()",	/* button14 */
+    "#override<Btn1Down>,<Btn1Up>:power()",		/* button15 */
+    "#override<Btn1Down>,<Btn1Up>:not()",		/* button16 */
+    "#override<Btn1Down>,<Btn1Up>:and()",		/* button17 */
+    "#override<Btn1Down>,<Btn1Up>:or()",			/* button18 */
+    "#override<Btn1Down>,<Btn1Up>:xor()",		/* button19 */
+    "#override<Btn1Down>,<Btn1Up>:trunc()",		/* button20 */
+    "#override<Btn1Down>,<Btn1Up>:pi()",			/* button21 */
+    "#override<Btn1Down>,<Btn1Up>:factorial()",		/* button22 */
+    "#override<Btn1Down>,<Btn1Up>:leftParen()",		/* button23 */
+    "#override<Btn1Down>,<Btn1Up>:rightParen()",	/* button24 */
+    "#override<Btn1Down>,<Btn1Up>:base()",		/* button25 */
+    "#override<Btn1Down>,<Btn1Up>:shl()",		/* button26 */
+    "#override<Btn1Down>,<Btn1Up>:digit(D)",		/* button27 */
+    "#override<Btn1Down>,<Btn1Up>:digit(E)",		/* button28 */
+    "#override<Btn1Down>,<Btn1Up>:digit(F)",		/* button29 */
+    "#override<Btn1Down>,<Btn1Up>:shr()",		/* button30 */
+    "#override<Btn1Down>,<Btn1Up>:mod()",		/* button31 */
+    "#override<Btn1Down>,<Btn1Up>:digit(A)",		/* button32 */
+    "#override<Btn1Down>,<Btn1Up>:digit(B)",		/* button33 */
+    "#override<Btn1Down>,<Btn1Up>:digit(C)",		/* button34 */
+    "#override<Btn1Down>,<Btn1Up>:divide()",		/* button35 */
+    "#override<Btn1Down>,<Btn1Up>:store()",		/* button36 */
+    "#override<Btn1Down>,<Btn1Up>:digit(7)",		/* button37 */
+    "#override<Btn1Down>,<Btn1Up>:digit(8)",		/* button38 */
+    "#override<Btn1Down>,<Btn1Up>:digit(9)",		/* button39 */
+    "#override<Btn1Down>,<Btn1Up>:multiply()",		/* button40 */
+    "#override<Btn1Down>,<Btn1Up>:recall()",		/* button41 */
+    "#override<Btn1Down>,<Btn1Up>:digit(4)",		/* button42 */
+    "#override<Btn1Down>,<Btn1Up>:digit(5)",		/* button43 */
+    "#override<Btn1Down>,<Btn1Up>:digit(6)",		/* button44 */
+    "#override<Btn1Down>,<Btn1Up>:subtract()",		/* button45 */
+    "#override<Btn1Down>,<Btn1Up>:sum()",		/* button46 */
+    "#override<Btn1Down>,<Btn1Up>:digit(1)",		/* button47 */
+    "#override<Btn1Down>,<Btn1Up>:digit(2)",		/* button48 */
+    "#override<Btn1Down>,<Btn1Up>:digit(3)",		/* button49 */
+    "#override<Btn1Down>,<Btn1Up>:add()",		/* button50 */
+    "#override<Btn1Down>,<Btn1Up>:exchange()",		/* button51 */
+    "#override<Btn1Down>,<Btn1Up>:digit(0)",		/* button52 */
+    "#override<Btn1Down>,<Btn1Up>:decimal()",		/* button53 */
+    "#override<Btn1Down>,<Btn1Up>:negate()",		/* button54 */
+    "#override<Btn1Down>,<Btn1Up>:equal()"		/* button55 */
+};
+
+/*
+ *	HP button translations (buttons 1-39, buttons 21 & 22 unmapped).
+ */
+static const char *hp_translations[] = {
+    "#override<Btn1Down>,<Btn1Up>:squareRoot()",	/* button1 */
+    "#override<Btn1Down>,<Btn1Up>:epower()",		/* button2 */
+    "#override<Btn1Down>,<Btn1Up>:tenpower()",		/* button3 */
+    "#override<Btn1Down>,<Btn1Up>:power()",		/* button4 */
+    "#override<Btn1Down>,<Btn1Up>:reciprocal()",	/* button5 */
+    "#override<Btn1Down>,<Btn1Up>:negate()",		/* button6 */
+    "#override<Btn1Down>,<Btn1Up>:digit(7)",		/* button7 */
+    "#override<Btn1Down>,<Btn1Up>:digit(8)",		/* button8 */
+    "#override<Btn1Down>,<Btn1Up>:digit(9)",		/* button9 */
+    "#override<Btn1Down>,<Btn1Up>:divide()",		/* button10 */
+    "#override<Btn1Down>,<Btn1Up>:factorial()",		/* button11 */
+    "#override<Btn1Down>,<Btn1Up>:pi()",			/* button12 */
+    "#override<Btn1Down>,<Btn1Up>:sine()",		/* button13 */
+    "#override<Btn1Down>,<Btn1Up>:cosine()",		/* button14 */
+    "#override<Btn1Down>,<Btn1Up>:tangent()",		/* button15 */
+    "#override<Btn1Down>,<Btn1Up>:scientific()",	/* button16 */
+    "#override<Btn1Down>,<Btn1Up>:digit(4)",		/* button17 */
+    "#override<Btn1Down>,<Btn1Up>:digit(5)",		/* button18 */
+    "#override<Btn1Down>,<Btn1Up>:digit(6)",		/* button19 */
+    "#override<Btn1Down>,<Btn1Up>:multiply()",		/* button20 */
+    NULL,						/* button21 (unmapped) */
+    NULL,						/* button22 (unmapped) */
+    "#override<Btn1Down>,<Btn1Up>:roll()",		/* button23 */
+    "#override<Btn1Down>,<Btn1Up>:XexchangeY()",	/* button24 */
+    "#override<Btn1Down>,<Btn1Up>:back()",		/* button25 */
+    "#override<Btn1Down>,<Btn1Up>:enter()",		/* button26 */
+    "#override<Btn1Down>,<Btn1Up>:digit(1)",		/* button27 */
+    "#override<Btn1Down>,<Btn1Up>:digit(2)",		/* button28 */
+    "#override<Btn1Down>,<Btn1Up>:digit(3)",		/* button29 */
+    "#override<Btn1Down>,<Btn1Up>:subtract()",		/* button30 */
+    "#override<Btn1Down>,<Btn1Up>:off()\n<Btn3Down>,<Btn3Up>:quit()",	/* button31 */
+    "#override<Btn1Down>,<Btn1Up>:degree()",		/* button32 */
+    "#override<Btn1Down>,<Btn1Up>:inverse()",		/* button33 */
+    "#override<Btn1Down>,<Btn1Up>:store()",		/* button34 */
+    "#override<Btn1Down>,<Btn1Up>:recall()",		/* button35 */
+    "#override<Btn1Down>,<Btn1Up>:digit(0)",		/* button36 */
+    "#override<Btn1Down>,<Btn1Up>:decimal()",		/* button37 */
+    "#override<Btn1Down>,<Btn1Up>:sum()",		/* button38 */
+    "#override<Btn1Down>,<Btn1Up>:add()"		/* button39 */
+};
+
+/*
+ *	TI LCD keyboard translations.
+ */
+static const char ti_lcd_translations[] =
+    "#replace\n"
+    "Ctrl<Key>c:quit()\n"
+    "Ctrl<Key>h:clear()\n"
+    "None<Key>0:digit(0)\n"
+    "None<Key>1:digit(1)\n"
+    "None<Key>2:digit(2)\n"
+    "None<Key>3:digit(3)\n"
+    "None<Key>4:digit(4)\n"
+    "None<Key>5:digit(5)\n"
+    "None<Key>6:digit(6)\n"
+    "None<Key>7:digit(7)\n"
+    "None<Key>8:digit(8)\n"
+    "None<Key>9:digit(9)\n"
+    "Mod2<Key>0:digit(0)\n"
+    "Mod2<Key>1:digit(1)\n"
+    "Mod2<Key>2:digit(2)\n"
+    "Mod2<Key>3:digit(3)\n"
+    "Mod2<Key>4:digit(4)\n"
+    "Mod2<Key>5:digit(5)\n"
+    "Mod2<Key>6:digit(6)\n"
+    "Mod2<Key>7:digit(7)\n"
+    "Mod2<Key>8:digit(8)\n"
+    "Mod2<Key>9:digit(9)\n"
+    "Shift<Key>a:digit(A)\n"
+    "Shift<Key>b:digit(B)\n"
+    "Shift<Key>c:digit(C)\n"
+    "Shift<Key>d:digit(D)\n"
+    "Shift<Key>e:digit(E)\n"
+    "Shift<Key>f:digit(F)\n"
+    "<Key>KP_0:digit(0)\n"
+    "<Key>KP_1:digit(1)\n"
+    "<Key>KP_2:digit(2)\n"
+    "<Key>KP_3:digit(3)\n"
+    "<Key>KP_4:digit(4)\n"
+    "<Key>KP_5:digit(5)\n"
+    "<Key>KP_6:digit(6)\n"
+    "<Key>KP_7:digit(7)\n"
+    "<Key>KP_8:digit(8)\n"
+    "<Key>KP_9:digit(9)\n"
+    "<Key>KP_Enter:equal()\n"
+    "<Key>KP_Equal:equal()\n"
+    "<Key>Return:equal()\n"
+    "<Key>KP_Multiply:multiply()\n"
+    "<Key>KP_Add:add()\n"
+    "<Key>KP_Subtract:subtract()\n"
+    "<Key>KP_Decimal:decimal()\n"
+    "<Key>KP_Separator:decimal()\n"
+    "<Key>KP_Divide:divide()\n"
+    "<Key>KP_Tab:equal()\n"
+    "<Key>Clear:clear()\n"
+    ":<Key>.:decimal()\n"
+    ":<Key>+:add()\n"
+    ":<Key>-:subtract()\n"
+    ":<Key>*:multiply()\n"
+    ":<Key>/:divide()\n"
+    ":<Key>(:leftParen()\n"
+    ":<Key>):rightParen()\n"
+    ":<Key>!:factorial()\n"
+    ":<Key>|:or()\n"
+    ":<Key>&:and()\n"
+    ":<Key><:shl()\n"
+    ":<Key>>:shr()\n"
+    ":<Key>~:not()\n"
+    ":<Key>%:mod()\n"
+    "<Key>x:xor()\n"
+    "<Key>e:e()\n"
+    ":<Key>^:power()\n"
+    "<Key>p:pi()\n"
+    "<Key>i:inverse()\n"
+    "<Key>s:sine()\n"
+    "<Key>c:cosine()\n"
+    "<Key>t:tangent()\n"
+    "<Key>d:degree()\n"
+    "<Key>l:naturalLog()\n"
+    ":<Key>=:equal()\n"
+    "<Key>n:negate()\n"
+    "<Key>r:squareRoot()\n"
+    "<Key>space:clear()\n"
+    "<Key>q:quit()\n"
+    "<Key>Delete:clear()\n"
+    "<Key>BackSpace:clear()";
+
+/*
+ *	HP LCD keyboard translations.
+ */
+static const char hp_lcd_translations[] =
+    "#replace\n"
+    "Ctrl<Key>c:quit()\n"
+    "Ctrl<Key>h:back()\n"
+    "None<Key>0:digit(0)\n"
+    "None<Key>1:digit(1)\n"
+    "None<Key>2:digit(2)\n"
+    "None<Key>3:digit(3)\n"
+    "None<Key>4:digit(4)\n"
+    "None<Key>5:digit(5)\n"
+    "None<Key>6:digit(6)\n"
+    "None<Key>7:digit(7)\n"
+    "None<Key>8:digit(8)\n"
+    "None<Key>9:digit(9)\n"
+    "<Key>KP_0:digit(0)\n"
+    "<Key>KP_1:digit(1)\n"
+    "<Key>KP_2:digit(2)\n"
+    "<Key>KP_3:digit(3)\n"
+    "<Key>KP_4:digit(4)\n"
+    "<Key>KP_5:digit(5)\n"
+    "<Key>KP_6:digit(6)\n"
+    "<Key>KP_7:digit(7)\n"
+    "<Key>KP_8:digit(8)\n"
+    "<Key>KP_9:digit(9)\n"
+    "<Key>KP_Enter:enter()\n"
+    "<Key>KP_Multiply:multiply()\n"
+    "<Key>KP_Add:add()\n"
+    "<Key>KP_Subtract:subtract()\n"
+    "<Key>KP_Decimal:decimal()\n"
+    "<Key>KP_Divide:divide()\n"
+    ":<Key>.:decimal()\n"
+    ":<Key>+:add()\n"
+    ":<Key>-:subtract()\n"
+    ":<Key>*:multiply()\n"
+    ":<Key>/:divide()\n"
+    ":<Key>!:factorial()\n"
+    "<Key>e:e()\n"
+    ":<Key>^:power()\n"
+    "<Key>p:pi()\n"
+    "<Key>i:inverse()\n"
+    "<Key>s:sine()\n"
+    "<Key>c:cosine()\n"
+    "<Key>t:tangent()\n"
+    "<Key>d:degree()\n"
+    "<Key>l:naturalLog()\n"
+    "<Key>n:negate()\n"
+    "<Key>r:squareRoot()\n"
+    "<Key>space:clear()\n"
+    "<Key>q:quit()\n"
+    "<Key>Delete:back()\n"
+    "<Key>Return:enter()\n"
+    "<Key>Linefeed:enter()\n"
+    "<Key>x:XexchangeY()\n"
+    "<Key>BackSpace:back()";
 
 /*	command line options specific to the application */
 static XrmOptionDescRec Options[] = {
@@ -198,12 +452,21 @@ static void create_calculator(Widget shell)
     if (rpn) {
 	set_hp_attachments(calculator, bevel, buttons);
 	set_hp_labels(buttons);
-	XtUnmanageChild(buttons[20]);  /* button21: unmapped in HP mode */
-	XtUnmanageChild(buttons[21]);  /* button22: unmapped in HP mode */
+	set_hp_translations(buttons);
+	set_button_sizes(buttons, 39, 40, 26);
+	Arg h_arg;
+	XtSetArg(h_arg, XmNheight, (XtArgVal)56);
+	XtSetValues(buttons[25], &h_arg, 1);
+	XtUnmanageChild(buttons[20]);
+	XtUnmanageChild(buttons[21]);
     } else {
 	set_ti_attachments(calculator, bevel, buttons);
 	set_ti_labels(buttons);
+	set_ti_translations(buttons);
+	set_button_sizes(buttons, 55, 40, 26);
     }
+    XtOverrideTranslations(LCD, XtParseTranslationTable(
+	rpn ? hp_lcd_translations : ti_lcd_translations));
     XtSetKeyboardFocus(calculator, LCD);
 }
 
@@ -634,6 +897,38 @@ static void set_hp_labels(Widget *btns)
 	XtSetArg(arg, XmNlabelString, str);
 	XtSetValues(btns[i], &arg, 1);
 	XmStringFree(str);
+    }
+}
+
+static void set_ti_translations(Widget *btns)
+{
+    XtTranslations xlations;
+    int i;
+    for (i = 0; i < 55; i++) {
+	xlations = XtParseTranslationTable(ti_translations[i]);
+	XtOverrideTranslations(btns[i], xlations);
+    }
+}
+
+static void set_hp_translations(Widget *btns)
+{
+    XtTranslations xlations;
+    int i;
+    for (i = 0; i < 39; i++) {
+	if (i == 20 || i == 21)
+	    continue;
+	xlations = XtParseTranslationTable(hp_translations[i]);
+	XtOverrideTranslations(btns[i], xlations);
+    }
+}
+
+static void set_button_sizes(Widget *btns, int count, int width, int height)
+{
+    Arg args[2];
+    XtSetArg(args[0], XmNwidth, (XtArgVal)width);
+    XtSetArg(args[1], XmNheight, (XtArgVal)height);
+    for (int i = 0; i < count; i++) {
+	XtSetValues(btns[i], args, 2);
     }
 }
 
