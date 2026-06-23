@@ -510,11 +510,7 @@ static void create_calculator(Widget shell)
     }
     XtOverrideTranslations(LCD, XtParseTranslationTable(
 	rpn ? hp_lcd_translations : ti_lcd_translations));
-    XtOverrideTranslations(calculator, XtParseTranslationTable(
-	rpn ? hp_lcd_translations : ti_lcd_translations));
-    XtOverrideTranslations(XtParent(calculator), XtParseTranslationTable(
-	rpn ? hp_lcd_translations : ti_lcd_translations));
-    XtSetKeyboardFocus(calculator, calculator);
+    XtSetKeyboardFocus(calculator, LCD);
 }
 
 /*
@@ -556,8 +552,8 @@ static void create_display(Widget parent)
     /* liquid crystal display */
     n = 0;
     XtSetArg(args[n], XtNborderWidth, (XtArgVal)0); n++;
-    XtSetArg(args[n], XmNalignment, XmALIGNMENT_END); n++;
-    XtSetArg(args[n], XmNrecomputeSize, False); n++;
+    XtSetArg(args[n], XmNeditable, False); n++;
+    XtSetArg(args[n], XmNcursorPositionVisible, False); n++;
     XtSetArg(args[n], XmNleftAttachment, XmATTACH_WIDGET); n++;
     XtSetArg(args[n], XmNleftWidget, ind[XCalc_MEMORY]); n++;
     XtSetArg(args[n], XmNtopAttachment, XmATTACH_FORM); n++;
@@ -565,7 +561,7 @@ static void create_display(Widget parent)
     XtSetArg(args[n], XmNrightOffset, 4); n++;
     XtSetArg(args[n], XmNleftOffset, 4); n++;
     XtSetArg(args[n], XmNtopOffset, 2); n++;
-    LCD = XtCreateManagedWidget("LCD", xmLabelWidgetClass, screen, args,
+    LCD = XtCreateManagedWidget("LCD", xmTextFieldWidgetClass, screen, args,
 				n);
 
     /* INV - the inverse function indicator */
@@ -1023,11 +1019,48 @@ static void set_button_sizes(Widget *btns, int count, int width, int height)
 
 void draw(char *string)
 {
-    XmString str = XmStringCreateLocalized(string);
+    Dimension width = 0;
     Arg arg;
-    XtSetArg(arg, XmNlabelString, str);
-    XtSetValues(LCD, &arg, 1);
-    XmStringFree(str);
+    XtSetArg(arg, XmNwidth, &width);
+    XtGetValues(LCD, &arg, 1);
+
+    XmFontList font_list = NULL;
+    XtSetArg(arg, XmNfontList, &font_list);
+    XtGetValues(LCD, &arg, 1);
+
+    int char_width = 8;
+    if (font_list) {
+	XmFontContext context;
+	if (XmFontListInitFontContext(&context, font_list)) {
+	    XmFontListEntry entry;
+	    while ((entry = XmFontListNextEntry(context)) != NULL) {
+		XmFontType type;
+		XtPointer font_entry = XmFontListEntryGetFont(entry, &type);
+		if (type == XmFONT_IS_FONT && font_entry) {
+		    XFontStruct *fs = (XFontStruct *)font_entry;
+		    if (fs->max_bounds.width > 0) {
+			char_width = fs->max_bounds.width;
+			break;
+		    }
+		}
+	    }
+	    XmFontListFreeFontContext(context);
+	}
+    }
+
+    int max_chars = (int)(width / char_width);
+    if (max_chars < 1) max_chars = 1;
+    if (max_chars > LCD_STR_LEN - 1) max_chars = LCD_STR_LEN - 1;
+    int str_len = (int)strlen(string);
+    if (str_len < max_chars) {
+	char buf[LCD_STR_LEN];
+	int pad = max_chars - str_len;
+	memset(buf, ' ', pad);
+	memcpy(buf + pad, string, str_len + 1);
+	XmTextFieldSetString(LCD, buf);
+    } else {
+	XmTextFieldSetString(LCD, string);
+    }
 }
 
 /*
