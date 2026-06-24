@@ -41,6 +41,11 @@ dist_appdefault_DATA = \
         app-defaults/XmCalc \
         app-defaults/XmCalc-color
 
+# Desktop file
+
+desktopdir = $(datadir)/applications
+dist_desktop_DATA = data/xmcalc.desktop
+
 MAINTAINERCLEANFILES = ChangeLog INSTALL
 
 .PHONY: ChangeLog INSTALL

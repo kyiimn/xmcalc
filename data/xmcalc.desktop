@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=XmCalc
+GenericName=Scientific Calculator
+Comment=Scientific calculator emulating TI-30 or HP-10C
+Exec=xmcalc
+Icon=xmcalc
+Terminal=false
+Categories=Utility;Calculator;Math;
+Keywords=calculator;scientific;TI-30;HP-10C;RPN;
+StartupNotify=false
