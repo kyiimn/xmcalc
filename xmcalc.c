@@ -46,6 +46,7 @@ from the X Consortium.
 #include <X11/Xfuncproto.h>
 #include <X11/Shell.h>
 #include <X11/cursorfont.h>
+#include <X11/keysym.h>
 #include "xmcalc.h"
 
 #ifndef ONE
@@ -66,6 +67,7 @@ static void set_ti_translations(Widget *btns);
 static void set_hp_translations(Widget *btns);
 static void set_button_sizes(Widget *btns, int count, int width, int height);
 static void Syntax(int argc, char **argv) _X_NORETURN;
+static void keyboard_handler(Widget w, XtPointer client_data, XEvent *event, Boolean *cont);
 
 /*
  *	global data
@@ -284,7 +286,8 @@ static const char ti_lcd_translations[] =
     "<Key>space:clear()\n"
     "<Key>q:quit()\n"
     "<Key>Delete:clear()\n"
-    "<Key>BackSpace:clear()";
+    "<Key>BackSpace:clear()\n"
+    "<Key>Escape:off()";
 
 /*
  *	HP LCD keyboard translations.
@@ -342,7 +345,8 @@ static const char hp_lcd_translations[] =
     "<Key>Return:enter()\n"
     "<Key>Linefeed:enter()\n"
     "<Key>x:XexchangeY()\n"
-    "<Key>BackSpace:back()";
+    "<Key>BackSpace:back()\n"
+    "<Key>Escape:off()";
 
 /*	command line options specific to the application */
 static XrmOptionDescRec Options[] = {
@@ -367,6 +371,106 @@ static XtResource Resources[] = {
      offset(cursor),	XtRCursor,	(XtPointer)NULL}
 };
 #undef offset
+
+static void keyboard_handler(Widget w, XtPointer client_data, XEvent *event, Boolean *cont)
+{
+    XKeyEvent *kev;
+    KeySym ks;
+    char buf[32];
+    int n;
+    unsigned int modifiers;
+
+    if (event->type != KeyPress)
+	return;
+
+    kev = &event->xkey;
+    modifiers = kev->state & ~(ShiftMask | LockMask | Mod2Mask);
+    n = XLookupString(kev, buf, sizeof(buf), &ks, NULL);
+
+    if (modifiers & ControlMask) {
+	if (ks == XK_c || ks == XK_C) { Quit(); return; }
+	return;
+    }
+
+    switch (ks) {
+    case XK_0: case XK_KP_0: if (!pre_op(kZERO)) { numeric(kZERO); } post_op(); return;
+    case XK_1: case XK_KP_1: if (!pre_op(kONE))  { numeric(kONE);  } post_op(); return;
+    case XK_2: case XK_KP_2: if (!pre_op(kTWO))  { numeric(kTWO);  } post_op(); return;
+    case XK_3: case XK_KP_3: if (!pre_op(kTHREE)){ numeric(kTHREE);} post_op(); return;
+    case XK_4: case XK_KP_4: if (!pre_op(kFOUR)) { numeric(kFOUR); } post_op(); return;
+    case XK_5: case XK_KP_5: if (!pre_op(kFIVE)) { numeric(kFIVE); } post_op(); return;
+    case XK_6: case XK_KP_6: if (!pre_op(kSIX))  { numeric(kSIX);  } post_op(); return;
+    case XK_7: case XK_KP_7: if (!pre_op(kSEVEN)){ numeric(kSEVEN);} post_op(); return;
+    case XK_8: case XK_KP_8: if (!pre_op(kEIGHT)){numeric(kEIGHT);}post_op(); return;
+    case XK_9: case XK_KP_9: if (!pre_op(kNINE)) { numeric(kNINE); } post_op(); return;
+    case XK_plus: case XK_KP_Add:    if (!pre_op(kADD)){ rpn ? twof(kADD) : twoop(kADD); } post_op(); return;
+    case XK_minus: case XK_KP_Subtract: if (!pre_op(kSUB)){ rpn ? twof(kSUB) : twoop(kSUB); } post_op(); return;
+    case XK_asterisk: case XK_KP_Multiply: if (!pre_op(kMUL)){ rpn ? twof(kMUL) : twoop(kMUL); } post_op(); return;
+    case XK_slash: case XK_KP_Divide: if (!pre_op(kDIV)){ rpn ? twof(kDIV) : twoop(kDIV); } post_op(); return;
+    case XK_equal: case XK_Return: case XK_KP_Enter: case XK_KP_Equal:
+	if (rpn) { if (!pre_op(kENTR)){ entrf(); } }
+	else      { if (!pre_op(kEQU)) { equf();  } }
+	post_op(); return;
+    case XK_period: case XK_KP_Decimal: case XK_KP_Separator:
+	if (!pre_op(kDEC)){ decf(); } post_op(); return;
+    case XK_Escape: if (!pre_op(kOFF)){ offf(); } post_op(); return;
+    case XK_Delete: case XK_BackSpace:
+	if (rpn) { if (!pre_op(kBKSP)){ bkspf(); } }
+	else      { if (!pre_op(kCLR)){ clearf(); } }
+	post_op(); return;
+    case XK_space:
+	if (!pre_op(kCLR)){ clearf(); } post_op(); return;
+    default: break;
+    }
+
+    if (n == 1 && buf[0] == '.') {
+	if (!pre_op(kDEC)){ decf(); } post_op(); return;
+    }
+
+    switch (ks) {
+    case XK_p: case XK_P: if (!pre_op(kPI)) { oneop(kPI); } post_op(); return;
+    case XK_e: if (!pre_op(kE)) { oneop(kE); } post_op(); return;
+    case XK_s: case XK_S: if (!pre_op(kSIN)){ oneop(kSIN);} post_op(); return;
+    case XK_c: if (!pre_op(kCOS)) { oneop(kCOS); } post_op(); return;
+    case XK_t: case XK_T: if (!pre_op(kTAN)){ oneop(kTAN);} post_op(); return;
+    case XK_l: if (!pre_op(kLN)) { oneop(kLN); } post_op(); return;
+    case XK_i: case XK_I: if (!pre_op(kINV)){ invf();       } post_op(); return;
+    case XK_n: case XK_N: if (!pre_op(kNEG)){ negf();       } post_op(); return;
+    case XK_r: if (!pre_op(kSQRT)){ oneop(kSQRT); } post_op(); return;
+    case XK_d: case XK_D:
+	if (kev->state & ShiftMask) { if (!pre_op(kxD)){ numeric(kxD); } }
+	else { if (!pre_op(kDRG)){ drgf(); } }
+	post_op(); return;
+    case XK_a: case XK_A:
+	if (kev->state & ShiftMask) { if (!pre_op(kxA)){ numeric(kxA); } }
+	else { if (!pre_op(kAND)){ rpn ? twof(kAND) : twoop(kAND); } }
+	post_op(); return;
+    case XK_b: case XK_B:
+	if (kev->state & ShiftMask) { if (!pre_op(kxB)){ numeric(kxB); } }
+	else { ringbell(); }
+	post_op(); return;
+    case XK_f: case XK_F:
+	if (kev->state & ShiftMask) { if (!pre_op(kxF)){ numeric(kxF); } }
+	else { ringbell(); }
+	post_op(); return;
+    case XK_x: case XK_X:
+	if (rpn) { if (!pre_op(kXXY)){ twof(kXXY); } }
+	else { if (!pre_op(kXOR)){ rpn ? twof(kXOR) : twoop(kXOR); } }
+	post_op(); return;
+    case XK_q: case XK_Q: Quit(); return;
+    case XK_parenleft: if (!pre_op(kLPAR)){ lparf(); } post_op(); return;
+    case XK_parenright: if (!pre_op(kRPAR)){ rparf(); } post_op(); return;
+    case XK_exclam: if (!pre_op(kFACT)){ oneop(kFACT); } post_op(); return;
+    case XK_asciicircum: if (!pre_op(kPOW)){ rpn ? twof(kPOW) : twoop(kPOW); } post_op(); return;
+    case XK_bar: if (!pre_op(kOR)){ rpn ? twof(kOR) : twoop(kOR); } post_op(); return;
+    case XK_ampersand: if (!pre_op(kAND)){ rpn ? twof(kAND) : twoop(kAND); } post_op(); return;
+    case XK_less: if (!pre_op(kSHL)){ rpn ? twof(kSHL) : twoop(kSHL); } post_op(); return;
+    case XK_greater: if (!pre_op(kSHR)){ rpn ? twof(kSHR) : twoop(kSHR); } post_op(); return;
+    case XK_asciitilde: if (!pre_op(kNOT)){ oneop(kNOT); } post_op(); return;
+    case XK_percent: if (!pre_op(kMOD)){ rpn ? twof(kMOD) : twoop(kMOD); } post_op(); return;
+    default: break;
+    }
+}
 
 
 int
@@ -402,14 +506,24 @@ main(int argc, char **argv)
     XtGetApplicationResources(toplevel, (XtPointer)&appResources, Resources,
 			      XtNumber(Resources), (ArgList) NULL, ZERO);
 
-    create_calculator(toplevel);
-
     XtAppAddActions(xtcontext, Actions, ActionsCount);
+
+    create_calculator(toplevel);
 
     XtOverrideTranslations(toplevel,
 	   XtParseTranslationTable("<Message>WM_PROTOCOLS: quit()\n"));
 
     XtRealizeWidget(toplevel);
+
+    XtAddEventHandler(toplevel, KeyPressMask, False,
+		      keyboard_handler, NULL);
+    XtAddEventHandler(calculator, KeyPressMask, False,
+		      keyboard_handler, NULL);
+    for (int i = 0; i < (rpn ? 39 : 55); i++)
+	XtAddEventHandler(buttons[i], KeyPressMask, False,
+			  keyboard_handler, NULL);
+    XtAddEventHandler(LCD, KeyPressMask, False,
+		      keyboard_handler, NULL);
 
     dpy = XtDisplay(toplevel);
     wm_delete_window = XInternAtom(dpy, "WM_DELETE_WINDOW", False);

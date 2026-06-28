@@ -79,3 +79,7 @@ core
 xcalc
 build/
 builddir/
+
+# Added for xmcalc fork
+xmcalc
+.omo/
